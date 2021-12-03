@@ -26,3 +26,11 @@ go to https://launch.smarthealthit.org, paste your launch url at the bottom and
 click "Launch". Alternatively, you can just click this link to launch:
 
 http://127.0.0.1:9090/launch.html?launch=eyJhIjoiMSJ9&iss=http%3A%2F%2Flaunch.smarthealthit.org%2Fv%2Fr3%2Ffhir
+
+ADDDENDUM: DH
+
+For this to work with the LogicaHealth Sandbox you need to enter the following scoped in the app registration: 
+    launch patient/MedicationStatement.r patient/Patient.r fhirUser openid offline_access
+
+The in launch.html scope shuld be:
+    "scope": ""
