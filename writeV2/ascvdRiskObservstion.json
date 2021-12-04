@@ -1,0 +1,25 @@
+"resource": {
+    "resourceType": "Observation",
+    "id": "38df48ad-039a-4dee-b647-affe7d26fb81",
+    "subject": {
+      "reference": "Patient/a6c7f012-0b32-4048-8c8b-27d2763b8cdc"
+    },
+    "status": "final",
+    "code": {
+      "coding": [
+        {
+          "system": "http://loinc.org",
+          "code": "79423-0",
+          "display": "Cardiovascular disease 10Y risk [Likelihood] ACC-AHA Pooled Cohort by Goff 2013"
+        }
+      ],
+      "text": "Cardiovascular disease 10Y risk [Likelihood] ACC-AHA Pooled Cohort by Goff 2013"
+    },
+    "valueQuantity": {
+      "value": 45,
+      "unit": "%",
+      "system": "http://unitsofmeasure.org",
+      "code": "%"
+    },
+    "issued": "2021-04-05T00:00:00.000Z"
+  }

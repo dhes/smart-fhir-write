@@ -10,7 +10,7 @@
  </head>
  <body>
     <pre></pre>
-    <script type="text/javascript">
+    <script>
     (function () {
         "use strict";
 
@@ -61,7 +61,6 @@
                 // NOTE that the patient will now have new "id" assigned by the
                 // server. The next request will be PUT (update) and that id will
                 // be required...
-                console.log(r);
                 // var patient = r.data;
                 var patient = r;
                 patient["active"] = true;
