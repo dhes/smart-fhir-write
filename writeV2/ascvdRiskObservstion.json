@@ -16,7 +16,7 @@
       "text": "Cardiovascular disease 10Y risk [Likelihood] ACC-AHA Pooled Cohort by Goff 2013"
     },
     "valueQuantity": {
-      "value": 45,
+      "value": 15.1,
       "unit": "%",
       "system": "http://unitsofmeasure.org",
       "code": "%"
