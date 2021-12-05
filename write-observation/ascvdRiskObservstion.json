@@ -1,4 +1,5 @@
-"resource": {
+{
+  "resource": {
     "resourceType": "Observation",
     "id": "38df48ad-039a-4dee-b647-affe7d26fb81",
     "subject": {
@@ -23,3 +24,4 @@
     },
     "issued": "2021-04-05T00:00:00.000Z"
   }
+}
