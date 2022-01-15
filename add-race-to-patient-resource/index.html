@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Example SMART App</title>
+    <script src="https://cdn.jsdelivr.net/npm/fhirclient/build/fhir-client.js"></script>
+    <style>
+      #patient,
+      #meds {
+        font-family: Monaco, monospace;
+        white-space: pre;
+        font-size: 13px;
+        height: 30vh;
+        overflow: scroll;
+        border: 1px solid #ccc;
+      }
+    </style>
+  </head>
+  <body>
+    <pre></pre>
+    <h4>Current Patient</h4>
+    <div id="patient">Loading...</div>
+    <script>
+      "use strict";
+      FHIR.oauth2
+        .ready()
+        .then(function (smart) {
+          //   // Create the patient and then update its active flag to "true"
+          //   // smart.api.create({resource: resource}).then(function(r) {
+          //   smart.create(resource).then(function (r) {
+          //     // NOTE that the patient will now have new "id" assigned by the
+          //     // server. The next request will be PUT (update) and that id will
+          //     // be required...
+          //     // var patient = r.data;
+          //     var patient = r;
+          //     patient["active"] = true;
+          //     // smart.api.update({resource: patient}).then(function(r) {
+          //     smart.update(patient).then(function (r) {
+          //       var out = JSON.stringify(r, null, "   ");
+          //       document.getElementsByTagName("pre")[0].innerText =
+          //         "Now " +
+          //         "we have the following patient in the FHIR server:\n\n" +
+          //         out;
+          //     });
+          //   });
+          // Render the current patient (or any error)
+          smart.patient.read().then(
+            function (pt) {
+              // document.getElementById("patient").innerText = JSON.stringify(
+              //   pt,
+              //   null,
+              //   4
+              // );
+              document.getElementById("patient").innerText =
+                pt.name[0].given[0] +
+                " " +
+                pt.name[0].family +
+                "\n" +
+                pt.id +
+                " ";
+              var resource = {
+                resourceType: "Observation",
+                status: "final",
+                category: [
+                  {
+                    coding: [
+                      {
+                        system:
+                          "http://terminology.hl7.org/CodeSystem/observation-category",
+                        code: "social-history",
+                        display: "Social History",
+                      },
+                    ],
+                    text: "Social History",
+                  },
+                ],
+                code: {
+                  coding: [
+                    {
+                      system: "http://loinc.org",
+                      code: "79423-0",
+                      display:
+                        "Cardiovascular disease 10Y risk [Likelihood] ACC-AHA Pooled Cohort by Goff 2013",
+                    },
+                  ],
+                  text: "Cardiovascular disease 10Y risk [Likelihood] ACC-AHA Pooled Cohort by Goff 2013",
+                },
+                valueQuantity: {
+                  value: 15.1,
+                  unit: "%",
+                  system: "http://unitsofmeasure.org",
+                  code: "%",
+                },
+                effectiveDateTime: "2021-04-05T00:00:00.000Z",
+              };
+
+              // TODO
+              // server will set resource id
+              // need to obtain patient id and add subject reference i.e.
+              // subject: {
+              //     reference: "Patient/a6c7f012-0b32-4048-8c8b-27d2763b8cdc",
+              //   },
+              // need to add "issued": Now()
+
+              resource["subject"] = {
+                reference: "Patient/" + pt.id,
+              };
+              smart.create(resource);
+            },
+            function (error) {
+              document.getElementById("patient").innerText = error.stack;
+            }
+          );
+        })
+        .catch(console.error);
+    </script>
+  </body>
+</html>

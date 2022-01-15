@@ -60,3 +60,6 @@ typings/
 .vscode
 
 fhir-downloader/database.db
+
+# mac OS file system stuff
+.DS_Store
