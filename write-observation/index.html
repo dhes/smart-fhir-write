@@ -51,6 +51,9 @@
               //   null,
               //   4
               // );
+              console.log("Patient Name: " + pt.name[0].given[0] +
+                " " +
+                pt.name[0].family);
               document.getElementById("patient").innerText =
                 pt.name[0].given[0] +
                 " " +
@@ -105,6 +108,7 @@
               resource["subject"] = {
                 reference: "Patient/" + pt.id,
               };
+              console.log(resource);
               smart.create(resource);
             },
             function (error) {
