@@ -51,6 +51,7 @@
               //   null,
               //   4
               // );
+              console.dir(pt);
               document.getElementById("patient").innerText =
                 pt.name[0].given[0] +
                 " " +
@@ -105,7 +106,7 @@
               resource["subject"] = {
                 reference: "Patient/" + pt.id,
               };
-              smart.create(resource);
+              // smart.create(resource); // DH don't want to write anything just yet
             },
             function (error) {
               document.getElementById("patient").innerText = error.stack;
