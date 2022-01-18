@@ -131,7 +131,8 @@
                 },
               ];
               pt["extension"] = white;
-              smart.update(patient);
+              console.dir(pt);
+              smart.update(pt);
             },
             function (error) {
               document.getElementById("patient").innerText = error.stack;
