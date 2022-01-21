@@ -216,7 +216,7 @@
                   ],
                 },
               ];
-              console.dir(pt["extension"][0].url);
+              // console.dir(pt["extension"][0].url);
               let usCoreRaceUrl =
                 "http://hl7.org/fhir/us/core/StructureDefinition/us-core-race";
               let extensionUsCoreRaceEntry = mixedRaceExample.find(
@@ -228,29 +228,44 @@
               extensionUsCoreRaceEntry = ethnicityExample.find(
                 (element) => element.url === usCoreRaceUrl
               );
-              console.log("ethnicity example");
-              console.log(extensionUsCoreRaceEntry != undefined);
-              console.dir(pt["extension"]);
-              let white = [
-                {
-                  url: "http://hl7.org/fhir/us/core/StructureDefinition/us-core-race",
-                  extension: [
-                    {
-                      url: "ombCategory",
-                      valueCoding: {
-                        system: "urn:oid:2.16.840.1.113883.6.238",
-                        code: "2106-3",
-                        display: "White",
-                      },
+              // console.log("ethnicity example: ");
+              // console.log(extensionUsCoreRaceEntry != undefined);
+              // console.dir(pt["extension"]);
+              // console.log("is there an extension alread? ")
+              // console.log(pt["extension"]!= undefined);
+              let femaleAtBirth = {
+                url: "http://hl7.org/fhir/us/core/StructureDefinition/us-core-birthsex",
+                valueCode: "F",
+              };
+              let white = {
+                url: "http://hl7.org/fhir/us/core/StructureDefinition/us-core-race",
+                extension: [
+                  {
+                    url: "ombCategory",
+                    valueCoding: {
+                      system: "urn:oid:2.16.840.1.113883.6.238",
+                      code: "2106-3",
+                      display: "White",
                     },
-                    {
-                      url: "text",
-                      valueString: "White",
-                    },
-                  ],
-                },
-              ];
-              pt["extension"] = white;
+                  },
+                  {
+                    url: "text",
+                    valueString: "White",
+                  },
+                ],
+              };
+              if (pt.hasOwnProperty("extension")) {
+                console.log("this patient resource has an extension");
+                pt["extension"].push(white);
+              } else {
+                console.log("this patient resource does not have an extension");
+                pt["extension"] = [white];
+                // or
+                // pt["extension"] = [];
+                // pt["extension"].push(white);
+              }
+              smart.update(pt);
+              // pt["extension"] = white;
               // console.dir(pt);
               // smart.update(pt);
             },
