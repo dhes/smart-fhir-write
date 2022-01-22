@@ -237,7 +237,7 @@
                 url: "http://hl7.org/fhir/us/core/StructureDefinition/us-core-birthsex",
                 valueCode: "F",
               };
-              let white = {
+              let whiteRace = {
                 url: "http://hl7.org/fhir/us/core/StructureDefinition/us-core-race",
                 extension: [
                   {
@@ -256,10 +256,10 @@
               };
               if (pt.hasOwnProperty("extension")) {
                 console.log("this patient resource has an extension");
-                pt["extension"].push(white);
+                pt["extension"].push(whiteRace);
               } else {
                 console.log("this patient resource does not have an extension");
-                pt["extension"] = [white];
+                pt["extension"] = [whiteRace];
                 // or
                 // pt["extension"] = [];
                 // pt["extension"].push(white);
