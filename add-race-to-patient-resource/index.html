@@ -5,7 +5,7 @@
     <title>Example SMART App</title>
     <script src="https://cdn.jsdelivr.net/npm/fhirclient/build/fhir-client.js"></script>
     <style>
-      #patient,
+      /* #patient,
       #meds {
         font-family: Monaco, monospace;
         white-space: pre;
@@ -13,13 +13,36 @@
         height: 30vh;
         overflow: scroll;
         border: 1px solid #ccc;
-      }
+      } */
     </style>
   </head>
   <body>
     <pre></pre>
-    <h4>Current Patient</h4>
-    <div id="patient">Loading...</div>
+    <!-- h4 --> <!-- Current Patient --><!-- /h4 -->
+    <!-- div id="patient" --><!-- Loading... --><!-- /div -->
+    <!-- this form is from https://www.dyn-web.com/tutorials/forms/radio/get-selected.php DH -->
+    <form action="#" method="post" class="demoForm" id="demoForm">
+      <fieldset>
+        <legend id="pt"> <b>Loading...</b>b></legend>
+
+        <p>Select 'race':</p>
+        <p>
+          <label
+            ><input type="radio" name="ship" value="black" checked /> African American (Black)</label
+          ></br>
+          <label
+            ><input type="radio" name="ship" value="white" /> European American (White)</label
+          ></br>
+          <label
+            ><input type="radio" name="ship" value="other" /> Other </label
+          >
+        </p>
+
+        <p>
+          <button type="button" name="getVal">Done</button>
+        </p>
+      </fieldset>
+    </form>
     <script>
       "use strict";
       FHIR.oauth2
@@ -52,11 +75,11 @@
               //   4
               // );
               console.dir(pt);
-              document.getElementById("patient").innerText =
+              document.getElementById("pt").innerText =
                 pt.name[0].given[0] +
                 " " +
                 pt.name[0].family +
-                "\n" +
+                " ID: " +
                 pt.id +
                 " ";
               // var resource = {
@@ -262,14 +285,14 @@
               //   console.log("this patient resource does not have an extension");
               //   pt["extension"] = [femaleAtBirth];
               // end
-              // this is the actual code: 
+              // this is the actual code:
               if (pt.hasOwnProperty("extension")) {
                 console.log("this patient resource has an extension");
                 pt["extension"].push(whiteRace);
               } else {
                 console.log("this patient resource does not have an extension");
                 pt["extension"] = [whiteRace];
-              // end
+                // end
                 // or
                 // pt["extension"] = [];
                 // pt["extension"].push(white);
@@ -280,11 +303,30 @@
               // smart.update(pt);
             },
             function (error) {
-              document.getElementById("patient").innerText = error.stack;
+              document.getElementById("pt").innerText = error.stack;
             }
           );
         })
         .catch(console.error);
+      // DH this form code is from https://www.dyn-web.com/tutorials/forms/radio/get-selected.php
+      function getRadioVal(form, name) {
+        var val;
+        // get list of radio buttons with specified name
+        var radios = form.elements[name];
+
+        // loop through list of radio buttons
+        for (var i = 0, len = radios.length; i < len; i++) {
+          if (radios[i].checked) {
+            // radio checked?
+            val = radios[i].value; // if so, hold its value in val
+            break; // and break out of for loop
+          }
+        }
+        return val; // return value of checked radio or undefined if none checked
+      }
+      // get value of selected 'ship' radio button in 'demoForm'
+      var val = getRadioVal(document.getElementById("demoForm"), "ship");
+      //alert(val);
     </script>
   </body>
 </html>
