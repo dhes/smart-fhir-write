@@ -21,25 +21,25 @@
     <!-- h4 --> <!-- Current Patient --><!-- /h4 -->
     <!-- div id="patient" --><!-- Loading... --><!-- /div -->
     <!-- this form is from https://www.dyn-web.com/tutorials/forms/radio/get-selected.php DH -->
-    <form action="#" method="post" class="demoForm" id="demoForm">
+    <form action="#" method="post" class="raceForm" id="raceForm">
       <fieldset>
         <legend id="pt"> <b>Loading...</b>b></legend>
 
         <p>Select 'race':</p>
         <p>
           <label
-            ><input type="radio" name="ship" value="black" checked /> African American (Black)</label
+            ><input type="radio" name="race" value="black" checked /> African American (Black)</label
           ></br>
           <label
-            ><input type="radio" name="ship" value="white" /> European American (White)</label
+            ><input type="radio" name="race" value="white" /> European American (White)</label
           ></br>
           <label
-            ><input type="radio" name="ship" value="other" /> Other </label
+            ><input type="radio" name="race" value="other" /> Other </label
           >
         </p>
 
         <p>
-          <button type="button" name="getVal">Done</button>
+          <button type="button" name="getVal">Done</button><button type="button" onClick="window.self.close()"><b>Cancel</b></button>
         </p>
       </fieldset>
     </form>
@@ -297,7 +297,7 @@
                 // pt["extension"] = [];
                 // pt["extension"].push(white);
               }
-              smart.update(pt);
+              // smart.update(pt); DH
               // pt["extension"] = white;
               // console.dir(pt);
               // smart.update(pt);
@@ -324,8 +324,8 @@
         }
         return val; // return value of checked radio or undefined if none checked
       }
-      // get value of selected 'ship' radio button in 'demoForm'
-      var val = getRadioVal(document.getElementById("demoForm"), "ship");
+      // get value of selected 'race' radio button in 'raceForm'
+      var val = getRadioVal(document.getElementById("raceForm"), "race");
       //alert(val);
     </script>
   </body>
