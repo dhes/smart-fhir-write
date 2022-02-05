@@ -6,9 +6,8 @@
     <script src="https://cdn.jsdelivr.net/npm/fhirclient/build/fhir-client.js"></script>
   </head>
   <body>
-    <pre></pre>
     <!-- this form is from https://www.dyn-web.com/tutorials/forms/radio/get-selected.php DH -->
-    <form action="#" method="post" class="raceForm" id="raceForm" onsubmit="getRadioVal(this.class, this.name);">
+    <form action="" class="raceForm" id="raceForm" onsubmit="myFunction(event)">
       <fieldset>
         <legend id="pt"> <b>Loading...</b></legend>
 
@@ -26,11 +25,15 @@
         </p>
 
         <p>
-          <button type="submit" name="getVal">Submit</button><button type="button" onClick="window.self.close()">Cancel</button>
+          <input type="submit" style="margin-right: 16px" id="submit"></input>
+          <button type="button" onClick="window.self.close()">Cancel</button>
         </p>
       </fieldset>
     </form>
     <script>
+//       document.getElementById("submit").addEventListener("click", function(event){
+//   event.preventDefault()
+// });
       "use strict";
       FHIR.oauth2
         .ready()
@@ -138,9 +141,9 @@
               let extensionUsCoreRaceEntry = mixedRaceExample.find(
                 (element) => element.url === usCoreRaceUrl
               );
-              console.log(extensionUsCoreRaceEntry);
-              console.log("race example: ");
-              console.log(extensionUsCoreRaceEntry != undefined);
+              // console.log(extensionUsCoreRaceEntry);
+              // console.log("race example: ");
+              // console.log(extensionUsCoreRaceEntry != undefined);
               extensionUsCoreRaceEntry = ethnicityExample.find(
                 (element) => element.url === usCoreRaceUrl
               );
@@ -166,10 +169,10 @@
                 ],
               };
               if (pt.hasOwnProperty("extension")) {
-                console.log("this patient resource has an extension");
+                // console.log("this patient resource has an extension");
                 pt["extension"].push(whiteRace);
               } else {
-                console.log("this patient resource does not have an extension");
+                // console.log("this patient resource does not have an extension");
                 pt["extension"] = [whiteRace];
               }
               // smart.update(pt); DH
@@ -180,6 +183,12 @@
           );
         })
         .catch(console.error);
+      // test the value
+      function myFunction(e) { 
+        // prevent get and reload default behavior
+        e.preventDefault(); 
+        var val = getRadioVal(document.getElementById("raceForm"), "race");
+        console.log(val);      }
       // DH this form code is from https://www.dyn-web.com/tutorials/forms/radio/get-selected.php
       function getRadioVal(form, name) {
         var val;
@@ -197,8 +206,8 @@
         return val; // return value of checked radio or undefined if none checked
       }
       // get value of selected 'race' radio button in 'raceForm'
-      var val = getRadioVal(document.getElementById("raceForm"), "race");
-      alert(val);
+      //var val = getRadioVal(document.getElementById("raceForm"), "race");
+      //alert(val);
     </script>
   </body>
 </html>
