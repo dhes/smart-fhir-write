@@ -8,9 +8,9 @@
   <body>
     <pre></pre>
     <!-- this form is from https://www.dyn-web.com/tutorials/forms/radio/get-selected.php DH -->
-    <form action="#" method="post" class="raceForm" id="raceForm">
+    <form action="#" method="post" class="raceForm" id="raceForm" onsubmit="getRadioVal(this.class, this.name);">
       <fieldset>
-        <legend id="pt"> <b>Loading...</b>b></legend>
+        <legend id="pt"> <b>Loading...</b></legend>
 
         <p>Select 'race':</p>
         <p>
@@ -26,7 +26,7 @@
         </p>
 
         <p>
-          <button type="button" name="getVal">Done</button><button type="button" onClick="window.self.close()"><b>Cancel</b></button>
+          <button type="submit" name="getVal">Submit</button><button type="button" onClick="window.self.close()">Cancel</button>
         </p>
       </fieldset>
     </form>
@@ -198,7 +198,7 @@
       }
       // get value of selected 'race' radio button in 'raceForm'
       var val = getRadioVal(document.getElementById("raceForm"), "race");
-      //alert(val);
+      alert(val);
     </script>
   </body>
 </html>
