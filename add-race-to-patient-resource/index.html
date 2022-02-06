@@ -12,9 +12,11 @@
         <legend id="ptNameAndId"> <b>Loading...</b></legend>
         <p>Select 'race':</p>
         <p>
-          <label><input type="radio" name="race" value="black" checked /> African American (Black)</label></br>
-          <label><input type="radio" name="race" value="white" /> European American (White)</label></br>
-          <label><input type="radio" name="race" value="other" /> Other </label>
+          <label><input type="radio" name="race" value="nativeAmerican" /> American Indian or Alaska Native </label></br>
+          <label><input type="radio" name="race" value="asianAmerica" /> Asian </label></br>
+          <label><input type="radio" name="race" value="africanAmerican" /> Black or African American </label></br>
+          <label><input type="radio" name="race" value="pacificIslander" /> Native Hawaiian or Other Pacific Islander </label></br>
+          <label><input type="radio" name="race" value="europeanAmerican" /> White </label></br>
         </p>
         <p>
           <input id="submit" type="submit" style="margin-right: 16px" id="submit" disabled></input>
@@ -67,15 +69,42 @@
           ],
         };
         let race = baseRace;
-        // your gonna have to tell em'... selecting 'other' is the same as selecting 'white'
-        if (raceSelection == 'black') {
-          race.extension[0].valueCoding.code= "2054-5";
-          race.extension[0].valueCoding.display= "Black";
-          race.extension[1].valueString = "Black";
-        } else {
-          race.extension[0].valueCoding.code= "2106-3";
-          race.extension[0].valueCoding.display= "White";
-          race.extension[1].valueString = "White";
+        // your gonna have to tell em'... for puporses of caluculating risk, everybody is considered 'europeanAmerican' unless thay are 'africanAmerica'
+        // if (raceSelection == 'africanAmerican') {
+        //   race.extension[0].valueCoding.code= "2054-5";
+        //   race.extension[0].valueCoding.display= "Black or African American";
+        //   race.extension[1].valueString = "Black or African American";
+        // } else {
+        //   race.extension[0].valueCoding.code= "2106-3";
+        //   race.extension[0].valueCoding.display= "White";
+        //   race.extension[1].valueString = "White";
+        // }
+        switch(raceSelection) {
+          case "nativeAmerican":
+            race.extension[0].valueCoding.code= "1002-5";
+            race.extension[0].valueCoding.display= "American Indian or Alaska Native";
+            race.extension[1].valueString = "American Indian or Alaska Native";
+            break;
+          case "asianAmerica":
+            race.extension[0].valueCoding.code= "2028-9";
+            race.extension[0].valueCoding.display= "Asian";
+            race.extension[1].valueString = "Asian";
+            break;
+          case "africanAmerican":
+            race.extension[0].valueCoding.code= "2054-5";
+            race.extension[0].valueCoding.display= "Black or African American";
+            race.extension[1].valueString = "Black or African American";
+            break;
+          case "pacificIslander":
+            race.extension[0].valueCoding.code= "2076-8";
+            race.extension[0].valueCoding.display= "Native Hawaiian or Other Pacific Islander";
+            race.extension[1].valueString = "Native Hawaiian or Other Pacific Islander";
+            break;
+          case "europeanAmerican":
+            race.extension[0].valueCoding.code= "2106-3";
+            race.extension[0].valueCoding.display= "White";
+            race.extension[1].valueString = "White";
+            break;
         }
         console.log(race);      
         console.log(pt);
