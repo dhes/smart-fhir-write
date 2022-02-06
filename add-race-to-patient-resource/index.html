@@ -6,24 +6,16 @@
     <script src="https://cdn.jsdelivr.net/npm/fhirclient/build/fhir-client.js"></script>
   </head>
   <body>
-    <!-- this form is from https://www.dyn-web.com/tutorials/forms/radio/get-selected.php DH -->
+    <!-- this form is derived from https://www.dyn-web.com/tutorials/forms/radio/get-selected.php DH -->
     <form action="" class="raceForm" id="raceForm" onsubmit="myFunction(event)">
       <fieldset>
-        <legend id="pt"> <b>Loading...</b></legend>
-
+        <legend id="ptNameAndId"> <b>Loading...</b></legend>
         <p>Select 'race':</p>
         <p>
-          <label
-            ><input type="radio" name="race" value="black" checked /> African American (Black)</label
-          ></br>
-          <label
-            ><input type="radio" name="race" value="white" /> European American (White)</label
-          ></br>
-          <label
-            ><input type="radio" name="race" value="other" /> Other </label
-          >
+          <label><input type="radio" name="race" value="black" checked /> African American (Black)</label></br>
+          <label><input type="radio" name="race" value="white" /> European American (White)</label></br>
+          <label><input type="radio" name="race" value="other" /> Other </label>
         </p>
-
         <p>
           <input type="submit" style="margin-right: 16px" id="submit"></input>
           <button type="button" onClick="window.self.close()">Cancel</button>
@@ -31,151 +23,17 @@
       </fieldset>
     </form>
     <script>
-//       document.getElementById("submit").addEventListener("click", function(event){
-//   event.preventDefault()
-// });
       "use strict";
+      let pt={};
       FHIR.oauth2
         .ready()
         .then(function (smart) {
           // Render the current patient (or any error)
-          smart.patient.read().then(
-            function (pt) {
-              console.dir(pt);
-              document.getElementById("pt").innerText =
-                pt.name[0].given[0] +
-                " " +
-                pt.name[0].family +
-                " ID: " +
-                pt.id +
-                " ";
-              let ethnicityExample = [
-                {
-                  extension: [
-                    {
-                      url: "ombCategory",
-                      valueCoding: {
-                        system: "urn:oid:2.16.840.1.113883.6.238",
-                        code: "2135-2",
-                        display: "Hispanic or Latino",
-                      },
-                    },
-                    {
-                      url: "detailed",
-                      valueCoding: {
-                        system: "urn:oid:2.16.840.1.113883.6.238",
-                        code: "2184-0",
-                        display: "Dominican",
-                      },
-                    },
-                    {
-                      url: "detailed",
-                      valueCoding: {
-                        system: "urn:oid:2.16.840.1.113883.6.238",
-                        code: "2148-5",
-                        display: "Mexican",
-                      },
-                    },
-                    {
-                      url: "text",
-                      valueString: "Hispanic or Latino",
-                    },
-                  ],
-                  url: "http://hl7.org/fhir/us/core/StructureDefinition/us-core-ethnicity",
-                },
-              ];
-              let mixedRaceExample = [
-                {
-                  url: "http://hl7.org/fhir/us/core/StructureDefinition/us-core-race",
-                  extension: [
-                    {
-                      url: "ombCategory",
-                      valueCoding: {
-                        system: "urn:oid:2.16.840.1.113883.6.238",
-                        code: "2106-3",
-                        display: "White",
-                      },
-                    },
-                    {
-                      url: "ombCategory",
-                      valueCoding: {
-                        system: "urn:oid:2.16.840.1.113883.6.238",
-                        code: "1002-5",
-                        display: "American Indian or Alaska Native",
-                      },
-                    },
-                    {
-                      url: "ombCategory",
-                      valueCoding: {
-                        system: "urn:oid:2.16.840.1.113883.6.238",
-                        code: "2028-9",
-                        display: "Asian",
-                      },
-                    },
-                    {
-                      url: "detailed",
-                      valueCoding: {
-                        system: "urn:oid:2.16.840.1.113883.6.238",
-                        code: "1586-7",
-                        display: "Shoshone",
-                      },
-                    },
-                    {
-                      url: "detailed",
-                      valueCoding: {
-                        system: "urn:oid:2.16.840.1.113883.6.238",
-                        code: "2036-2",
-                        display: "Filipino",
-                      },
-                    },
-                    {
-                      url: "text",
-                      valueString: "Mixed",
-                    },
-                  ],
-                },
-              ];
-              // console.dir(pt["extension"][0].url);
-              let usCoreRaceUrl =
-                "http://hl7.org/fhir/us/core/StructureDefinition/us-core-race";
-              let extensionUsCoreRaceEntry = mixedRaceExample.find(
-                (element) => element.url === usCoreRaceUrl
-              );
-              // console.log(extensionUsCoreRaceEntry);
-              // console.log("race example: ");
-              // console.log(extensionUsCoreRaceEntry != undefined);
-              extensionUsCoreRaceEntry = ethnicityExample.find(
-                (element) => element.url === usCoreRaceUrl
-              );
-              let femaleAtBirth = {
-                url: "http://hl7.org/fhir/us/core/StructureDefinition/us-core-birthsex",
-                valueCode: "F",
-              };
-              let whiteRace = {
-                url: "http://hl7.org/fhir/us/core/StructureDefinition/us-core-race",
-                extension: [
-                  {
-                    url: "ombCategory",
-                    valueCoding: {
-                      system: "urn:oid:2.16.840.1.113883.6.238",
-                      code: "2106-3",
-                      display: "White",
-                    },
-                  },
-                  {
-                    url: "text",
-                    valueString: "White",
-                  },
-                ],
-              };
-              if (pt.hasOwnProperty("extension")) {
-                // console.log("this patient resource has an extension");
-                pt["extension"].push(whiteRace);
-              } else {
-                // console.log("this patient resource does not have an extension");
-                pt["extension"] = [whiteRace];
-              }
-              // smart.update(pt); DH
+          smart.patient.read()
+          .then(function (pt) {
+              console.log(JSON.stringify(pt));
+              document.getElementById("ptNameAndID").innerText =
+                pt.name[0].given[0] + " " + pt.name[0].family + " ID: " + pt.id + " ";
             },
             function (error) {
               document.getElementById("pt").innerText = error.stack;
@@ -187,8 +45,48 @@
       function myFunction(e) { 
         // prevent get and reload default behavior
         e.preventDefault(); 
-        var val = getRadioVal(document.getElementById("raceForm"), "race");
-        console.log(val);      }
+        let raceSelection = getRadioVal(document.getElementById("raceForm"), "race");
+        console.log(raceSelection);
+        let baseRace = {
+          url: "http://hl7.org/fhir/us/core/StructureDefinition/us-core-race",
+          extension: [
+            {
+              url: "ombCategory",
+              valueCoding: {
+                system: "urn:oid:2.16.840.1.113883.6.238",
+                // code: "2106-3",
+                // display: "White",
+              },
+            },
+            {
+              url: "text",
+              // valueString: "White",
+            },
+          ],
+        };
+        let race = baseRace;
+        // your gonna have to tell em'... selecting 'other' is the same as selecting 'white'
+        if (raceSelection = 'black') {
+          race.extension[0].valueCoding.code= "2054-5";
+          race.extension[0].valueCoding.display= "Black";
+          race.extension[1].valueString = "Black";
+        } else {
+          race.extension[0].valueCoding.code= "2106-3";
+          race.extension[0].valueCoding.display= "White";
+          race.extension[1].valueString = "White";
+        }
+        console.log(race);      
+        console.log(pt);
+        if (pt.hasOwnProperty("extension")) {
+          // console.log("this patient resource has an extension");
+          pt["extension"].push(race);
+        } else {
+          // console.log("this patient resource does not have an extension");
+          pt["extension"] = [race];
+        }
+        console.log(pt);
+        // smart.update(pt); DH
+      }
       // DH this form code is from https://www.dyn-web.com/tutorials/forms/radio/get-selected.php
       function getRadioVal(form, name) {
         var val;
