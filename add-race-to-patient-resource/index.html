@@ -36,7 +36,7 @@
               console.log(JSON.stringify(pt));
               document.getElementById("ptNameAndId").innerText =
                 pt.name[0].given[0] + " " + pt.name[0].family + " ID: " + pt.id + " ";
-                document.getElementById("raceForm").onsubmit = function() {myFunction(event,pt)};
+                document.getElementById("raceForm").onsubmit = function() {myFunction(event, pt, smart)};
                 document.getElementById("submit").disabled = false;
             },
             function (error) {
@@ -46,7 +46,7 @@
         })
         .catch(console.error);
       // test the value
-      function myFunction(e,pt) { 
+      function myFunction(e, pt, smart) { 
         // prevent get and reload default behavior
         e.preventDefault(); 
         let raceSelection = getRadioVal(document.getElementById("raceForm"), "race");
@@ -70,15 +70,6 @@
         };
         let race = baseRace;
         // your gonna have to tell em'... for puporses of caluculating risk, everybody is considered 'europeanAmerican' unless thay are 'africanAmerica'
-        // if (raceSelection == 'africanAmerican') {
-        //   race.extension[0].valueCoding.code= "2054-5";
-        //   race.extension[0].valueCoding.display= "Black or African American";
-        //   race.extension[1].valueString = "Black or African American";
-        // } else {
-        //   race.extension[0].valueCoding.code= "2106-3";
-        //   race.extension[0].valueCoding.display= "White";
-        //   race.extension[1].valueString = "White";
-        // }
         switch(raceSelection) {
           case "nativeAmerican":
             race.extension[0].valueCoding.code= "1002-5";
@@ -116,7 +107,7 @@
           pt["extension"] = [race];
         }
         console.log(pt);
-        // smart.update(pt); DH
+        smart.update(pt); 
       }
       // DH this form code is from https://www.dyn-web.com/tutorials/forms/radio/get-selected.php
       function getRadioVal(form, name) {
