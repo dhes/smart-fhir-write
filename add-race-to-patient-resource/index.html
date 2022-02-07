@@ -26,7 +26,9 @@
     </form>
     <script>
       "use strict";
-      let pt={};
+      // let pt={};
+      // i'd like to figure out why i need this global line DH
+      /* global FHIR*/
       FHIR.oauth2
         .ready()
         .then(function (smart) {
@@ -99,7 +101,7 @@
         }
         console.log(race);      
         console.log(pt);
-        if (pt.hasOwnProperty("extension")) {
+        if (Object.prototype.hasOwnProperty.call(pt,"extension")) {
           // console.log("this patient resource has an extension");
           pt["extension"].push(race);
         } else {
