@@ -3,7 +3,8 @@
   <head>
     <meta charset="UTF-8" />
     <title>Example SMART App</title>
-    <script src="https://cdn.jsdelivr.net/npm/fhirclient/build/fhir-client.js"></script>
+    <!-- script src="https://cdn.jsdelivr.net/npm/fhirclient/build/fhir-client.js"--><!--/script-->
+    <script src="fhir-client.js"></script>
   </head>
   <body>
     <!-- this form is derived from https://www.dyn-web.com/tutorials/forms/radio/get-selected.php DH -->
@@ -109,7 +110,15 @@
           pt["extension"] = [race];
         }
         console.log(pt);
-        smart.update(pt); 
+        smart.update(pt)
+        .catch(function(e) {
+          alert('An error occured with updating the patient \n' + JSON.stringify(e)); 
+        throw e;
+      }).then(function(bundle){
+        alert('Patient update succeeded!');
+         return bundle;
+        })
+    
       }
       // DH this form code is from https://www.dyn-web.com/tutorials/forms/radio/get-selected.php
       function getRadioVal(form, name) {
