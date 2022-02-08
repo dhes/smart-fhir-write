@@ -28,9 +28,7 @@
     <script>
       "use strict";
       // let pt={};
-      // i'd like to figure out why i need this global line DH
-      /* global FHIR*/
-      FHIR.oauth2
+      this.FHIR.oauth2
         .ready()
         .then(function (smart) {
           // Render the current patient (or any error)
@@ -39,7 +37,7 @@
               console.log(JSON.stringify(pt));
               document.getElementById("ptNameAndId").innerText =
                 pt.name[0].given[0] + " " + pt.name[0].family + " ID: " + pt.id + " ";
-                document.getElementById("raceForm").onsubmit = function() {myFunction(event, pt, smart)};
+                document.getElementById("raceForm").onsubmit = function() {setRaceCategory(event, pt, smart)};
                 document.getElementById("submit").disabled = false;
             },
             function (error) {
@@ -49,7 +47,7 @@
         })
         .catch(console.error);
       // test the value
-      function myFunction(e, pt, smart) { 
+      function setRaceCategory(e, pt, smart) { 
         // prevent get and reload default behavior
         e.preventDefault(); 
         let raceSelection = getRadioVal(document.getElementById("raceForm"), "race");
