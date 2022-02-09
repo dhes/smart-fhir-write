@@ -11,6 +11,26 @@
       body {
         width: 500px;
       }
+    .hide {
+      display: none;
+      position:relative;
+  padding:15px;
+  margin:1em 0 3em;
+  color:#000;
+  background:#cee7f2; /* default background for browsers without gradient support */
+  /* css3 */
+/*  background:-webkit-gradient(linear, 0 0, 0 100%, from(#f9d835), to(#f3961c));
+  background:-moz-linear-gradient(#f9d835, #f3961c);
+  background:-o-linear-gradient(#f9d835, #f3961c);
+  background:linear-gradient(#f9d835, #f3961c);*/
+  -webkit-border-radius:10px;
+  -moz-border-radius:10px;
+  border-radius:10px;
+    }
+        
+    .mySpan:hover + .hide {
+      display: block;
+    }
     </style>
   </head>
   <body>
@@ -19,7 +39,13 @@
     <form action="" class="raceForm" id="raceForm" disabled>
       <fieldset>
         <legend id="ptNameAndId"><b>Loading...</b></legend>
-        <p>Select 'race':</p>
+        <p>Select <b>OMB 'Race' Category</b> <span class="mySpan" ><b>&#9432</b></span>:
+          <span class="hide">
+            OMB stands for Office of Management and Budget, an excutive office of the President of the United States of America. 
+            OMB places people in 'race' categories, as shown on this form. 
+            The "Black or African American" and "White" categories were used in the original ASCVD risk studies. 
+            The OMB recognizes the absence of an anthropological or scientific basis for racial classification. </span>
+          <a href="https://www.govinfo.gov/content/pkg/FR-1997-10-30/pdf/97-28653.pdf" target="_blank">Reference</a>
         <p>
           <label
             ><input type="radio" name="race" value="nativeAmerican" id="nativeAmerican" /> American
