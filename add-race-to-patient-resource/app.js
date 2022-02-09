@@ -30,35 +30,22 @@ this.FHIR.oauth2
           }
         }
         switch (ombRaceCategoryCode) {
-            {    case "nativeAmerican":
-            race.extension[0].valueCoding.code = "1002-5";
-            race.extension[0].valueCoding.display =
-              "American Indian or Alaska Native";
-            race.extension[1].valueString = "American Indian or Alaska Native";
+          case "1002-5":
+            document.getElementById("nativeAmerican").checked=true;
             break;
-          case "asianAmerica":
-            race.extension[0].valueCoding.code = "2028-9";
-            race.extension[0].valueCoding.display = "Asian";
-            race.extension[1].valueString = "Asian";
+          case "2028-9":
+            document.getElementById("asianAmerican").checked=true;;
             break;
-          case "africanAmerican":
-            race.extension[0].valueCoding.code = "2054-5";
-            race.extension[0].valueCoding.display = "Black or African American";
-            race.extension[1].valueString = "Black or African American";
+          case "2054-5":
+            document.getElementById("africanAmerican").checked=true;;
             break;
-          case "pacificIslander":
-            race.extension[0].valueCoding.code = "2076-8";
-            race.extension[0].valueCoding.display =
-              "Native Hawaiian or Other Pacific Islander";
-            race.extension[1].valueString =
-              "Native Hawaiian or Other Pacific Islander";
+          case "2076-8":
+            document.getElementById("pacificIslander").checked=true;;
             break;
-          case "europeanAmerican":
-            race.extension[0].valueCoding.code = "2106-3";
-            race.extension[0].valueCoding.display = "White";
-            race.extension[1].valueString = "White";
+          case "2106-3":
+            document.getElementById("europeanAmerican").checked=true;;
             break;
-      }
+        }
         document.getElementById("raceForm").onsubmit = function () {
           setRaceCategory(event, pt, smart);
         };
