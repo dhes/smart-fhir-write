@@ -56,6 +56,9 @@ this.FHIR.oauth2
         document.getElementById("removeRaceForm").onsubmit = function () {
           removeRaceCategory(event, pt, smart);
         };
+        document.getElementById("lipids").onsubmit = function () {
+          setLipids(event);
+        };
         document.getElementById("submitRace").disabled = false;
         document.getElementById("removeRace").disabled = false;
       },
@@ -187,4 +190,11 @@ function removeRaceCategory(e, pt, smart) {
       alert("Patient update succeeded!");
       return bundle;
     });
+}
+function setLipids(e) {
+  e.preventDefault();
+  var totalCholesterol = Number(document.getElementById("totalCholesterol").value);
+  var ldlCholesterol = Number(document.getElementById("ldlCholesterol").value);
+  var hdlCholesterol = Number(document.getElementById("hdlCholesterol").value);
+  console.log(totalCholesterol + " " + ldlCholesterol + " " + hdlCholesterol);
 }
