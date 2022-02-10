@@ -9,19 +9,22 @@ this.FHIR.oauth2
         console.log(JSON.stringify(pt));
         document.getElementById("ptNameAndId").innerText =
           pt.name[0].given[0] + " " + pt.name[0].family + " ID: " + pt.id + " ";
-        // pull patient race category:
+        // pull patient race category
         // if there is a patient extension:
         if (Object.prototype.hasOwnProperty.call(pt, "extension")) {
+          // ...then look for a us core race url:
           let usCoreRaceExtensionIndex = pt.extension.findIndex(
             (a) =>
               a.url ===
               "http://hl7.org/fhir/us/core/StructureDefinition/us-core-race"
           ); // -1 if no such extension
           console.log(usCoreRaceExtensionIndex);
+          // if there is a usCoreRaceExtension, look for a url=ombCategory below it: 
           if (usCoreRaceExtensionIndex != -1) {
             let ombCategoryExtensionIndex = pt.extension[
               usCoreRaceExtensionIndex
             ].extension.findIndex((a) => a.url === "ombCategory");
+            // and get the 'race' code from it. 
             var ombRaceCategoryCode =
               pt.extension[usCoreRaceExtensionIndex].extension[
                 ombCategoryExtensionIndex
@@ -29,6 +32,7 @@ this.FHIR.oauth2
             console.log("ombRaceCategoryCode = " + ombRaceCategoryCode);
           }
         }
+        // use the 'race' code to populate the radio buttons:
         switch (ombRaceCategoryCode) {
           case "1002-5":
             document.getElementById("nativeAmerican").checked=true;
