@@ -39,19 +39,20 @@
     <form action="" class="raceForm" id="raceForm" disabled>
       <fieldset>
         <legend id="ptNameAndId"><b>Loading...</b></legend>
-        <p>Select <b>OMB 'Race' Category</b> <span class="mySpan" ><b>&#9432</b></span>:
+        <p>Select <b>OMB 'Race' Category</b> <span class="mySpan" ><b>&#9432;</b></span>:
           <span class="hide">
             OMB stands for Office of Management and Budget, an excutive office of the President of the United States of America. 
-            OMB places people in 'race' categories, as shown on this form. 
+            OMB places people in 'Race' categories, as shown on this form. 
             The "Black or African American" and "White" categories were used in the original ASCVD risk studies. 
             The OMB recognizes the absence of an anthropological or scientific basis for racial classification. </span>
           <a href="https://www.govinfo.gov/content/pkg/FR-1997-10-30/pdf/97-28653.pdf" target="_blank">Reference</a>
-        <p>
+        </p>
+          <p>
           <label
             ><input type="radio" name="race" value="nativeAmerican" id="nativeAmerican" /> American
             Indian or Alaska Native </label
           ><br /><label
-            ><input type="radio" name="race" value="asianAmerica" id="asianAmerica" />
+            ><input type="radio" name="race" value="asianAmerican" id="asianAmerican" />
             Asian </label
           ><br />
           <label
@@ -79,15 +80,10 @@
       </fieldset>
     </form>
     <form action="" class="removeRaceForm" id="removeRaceForm" disabled>
-      <fieldset></fieldset>        
-      <legend id="removeRaceLegend">
-        <input
-        id="removeRace"
-        type="submit"
-        style="margin-right: 16px"
-        disabled
-      />
-      </legend>
+      <fieldset>        
+        <legend id="removeRaceLegend"></legend>
+          <label>Remove OMB 'Race' from patient chart: </label><input id="removeRace"  type="submit"  style="margin-right: 16px"  value ="Remove" disabled>
+      </fieldset>
     </form>
   </body>
 </html>

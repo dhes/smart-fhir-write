@@ -19,12 +19,12 @@ this.FHIR.oauth2
               "http://hl7.org/fhir/us/core/StructureDefinition/us-core-race"
           ); // -1 if no such extension
           console.log(usCoreRaceExtensionIndex);
-          // if there is a usCoreRaceExtension, look for a url=ombCategory below it: 
+          // if there is a usCoreRaceExtension, look for a url=ombCategory below it:
           if (usCoreRaceExtensionIndex != -1) {
             let ombCategoryExtensionIndex = pt.extension[
               usCoreRaceExtensionIndex
             ].extension.findIndex((a) => a.url === "ombCategory");
-            // and get the 'race' code from it. 
+            // and get the 'race' code from it.
             var ombRaceCategoryCode =
               pt.extension[usCoreRaceExtensionIndex].extension[
                 ombCategoryExtensionIndex
@@ -35,25 +35,29 @@ this.FHIR.oauth2
         // use the 'race' code to populate the radio buttons:
         switch (ombRaceCategoryCode) {
           case "1002-5":
-            document.getElementById("nativeAmerican").checked=true;
+            document.getElementById("nativeAmerican").checked = true;
             break;
           case "2028-9":
-            document.getElementById("asianAmerican").checked=true;;
+            document.getElementById("asianAmerican").checked = true;
             break;
           case "2054-5":
-            document.getElementById("africanAmerican").checked=true;;
+            document.getElementById("africanAmerican").checked = true;
             break;
           case "2076-8":
-            document.getElementById("pacificIslander").checked=true;;
+            document.getElementById("pacificIslander").checked = true;
             break;
           case "2106-3":
-            document.getElementById("europeanAmerican").checked=true;;
+            document.getElementById("europeanAmerican").checked = true;
             break;
         }
         document.getElementById("raceForm").onsubmit = function () {
           setRaceCategory(event, pt, smart);
         };
-        document.getElementById("submit").disabled = false;
+        document.getElementById("removeRaceForm").onsubmit = function () {
+          removeRaceCategory(event, pt, smart);
+        };
+        document.getElementById("submitRace").disabled = false;
+        document.getElementById("removeRace").disabled = false;
       },
       function (error) {
         document.getElementById("ptNameAndId").innerText = error.stack;
@@ -154,4 +158,33 @@ function getRadioVal(form, name) {
     }
   }
   return val; // return value of checked radio or undefined if none checked
+}
+// assume no need to verify existence of an OMB 'race' entry
+function removeRaceCategory(e, pt, smart) {
+  e.preventDefault();
+  let usCoreRaceExtensionIndex = pt.extension.findIndex(
+    (a) =>
+      a.url === "http://hl7.org/fhir/us/core/StructureDefinition/us-core-race"
+  );
+  alert("remove2: " + usCoreRaceExtensionIndex);
+  pt.extension.splice(
+    usCoreRaceExtensionIndex,
+    1
+  ); // ... at the usCoreRaceExtensionIndex position, remove 1 array element. This method leaves no 'undefined' holes.
+  alert("pt.extension.length = " + pt.extension.length);
+  // remove patient.extension property if extension array is empty
+  if (pt.extension.length === 0) {delete pt.extension}
+  alert('patient has an extension' + Object.prototype.hasOwnProperty.call(pt, "extension"));
+  smart
+    .update(pt)
+    .catch(function (e) {
+      alert(
+        "An error occured with updating the patient \n" + JSON.stringify(e)
+      );
+      throw e;
+    })
+    .then(function (bundle) {
+      alert("Patient update succeeded!");
+      return bundle;
+    });
 }
