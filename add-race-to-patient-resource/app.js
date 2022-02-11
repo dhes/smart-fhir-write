@@ -194,7 +194,13 @@ function removeRaceCategory(e, pt, smart) {
 function setLipids(e) {
   e.preventDefault();
   var totalCholesterol = Number(document.getElementById("totalCholesterol").value);
+  var totalCholesterolDate = new Date(document.getElementById("totalCholesterolDate").value + "T00:00:00");
+  console.log(totalCholesterolDate);
   var ldlCholesterol = Number(document.getElementById("ldlCholesterol").value);
+  var ldlCholesterolDate = new Date(document.getElementById("ldlCholesterolDate").value + "T00:00:00");
   var hdlCholesterol = Number(document.getElementById("hdlCholesterol").value);
-  console.log(totalCholesterol + " " + ldlCholesterol + " " + hdlCholesterol);
+  var hdlCholesterolDate = new Date(document.getElementById("hdlCholesterolDate").value + "T00:00:00");
+  console.log("totalCholesterol = " + totalCholesterol + " " + "totalCholesterolDate = " + totalCholesterolDate);
+  console.log("ldlCholesterol = " + ldlCholesterol + " " + "ldlCholesterolDate = " + ldlCholesterolDate);
+  console.log("hdlCholesterol = " + hdlCholesterol + " " + "hdlCholesterolDate = " + hdlCholesterolDate);
 }
