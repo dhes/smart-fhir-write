@@ -6,7 +6,7 @@ this.FHIR.oauth2
     // Render the current patient (or any error)
     smart.patient.read().then(
       function (pt) {
-        console.log(JSON.stringify(pt));
+        // console.log(JSON.stringify(pt));
         document.getElementById("ptNameAndId").innerText =
           pt.name[0].given[0] + " " + pt.name[0].family + " ID: " + pt.id + " ";
         // pull patient race category
@@ -18,7 +18,7 @@ this.FHIR.oauth2
               a.url ===
               "http://hl7.org/fhir/us/core/StructureDefinition/us-core-race"
           ); // -1 if no such extension
-          console.log(usCoreRaceExtensionIndex);
+          // console.log(usCoreRaceExtensionIndex);
           // if there is a usCoreRaceExtension, look for a url=ombCategory below it:
           if (usCoreRaceExtensionIndex != -1) {
             let ombCategoryExtensionIndex = pt.extension[
@@ -57,7 +57,7 @@ this.FHIR.oauth2
           removeRaceCategory(event, pt, smart);
         };
         document.getElementById("lipids").onsubmit = function () {
-          setLipids(event);
+          setLipids(event, pt, smart);
         };
         document.getElementById("submitRace").disabled = false;
         document.getElementById("removeRace").disabled = false;
@@ -170,14 +170,16 @@ function removeRaceCategory(e, pt, smart) {
       a.url === "http://hl7.org/fhir/us/core/StructureDefinition/us-core-race"
   );
   alert("remove2: " + usCoreRaceExtensionIndex);
-  pt.extension.splice(
-    usCoreRaceExtensionIndex,
-    1
-  ); // ... at the usCoreRaceExtensionIndex position, remove 1 array element. This method leaves no 'undefined' holes.
+  pt.extension.splice(usCoreRaceExtensionIndex, 1); // ... at the usCoreRaceExtensionIndex position, remove 1 array element. This method leaves no 'undefined' holes.
   alert("pt.extension.length = " + pt.extension.length);
   // remove patient.extension property if extension array is empty
-  if (pt.extension.length === 0) {delete pt.extension}
-  alert('patient has an extension' + Object.prototype.hasOwnProperty.call(pt, "extension"));
+  if (pt.extension.length === 0) {
+    delete pt.extension;
+  }
+  alert(
+    "patient has an extension" +
+      Object.prototype.hasOwnProperty.call(pt, "extension")
+  );
   smart
     .update(pt)
     .catch(function (e) {
@@ -191,20 +193,93 @@ function removeRaceCategory(e, pt, smart) {
       return bundle;
     });
 }
-function setLipids(e) {
+function setLipids(e, pt, smart) {
   e.preventDefault();
-  var totalCholesterol = Number(document.getElementById("totalCholesterol").value);
-  var totalCholesterolDate = new Date(document.getElementById("totalCholesterolDate").value + "T00:00:00");
+  var totalCholesterol = Number(
+    document.getElementById("totalCholesterol").value
+  );
+  var totalCholesterolDate = 
+    document.getElementById("totalCholesterolDate").value;
   console.log(totalCholesterolDate);
   var ldlCholesterol = Number(document.getElementById("ldlCholesterol").value);
-  var ldlCholesterolDate = new Date(document.getElementById("ldlCholesterolDate").value + "T00:00:00");
+  var ldlCholesterolDate = 
+    document.getElementById("ldlCholesterolDate").value;
   var hdlCholesterol = Number(document.getElementById("hdlCholesterol").value);
-  var hdlCholesterolDate = new Date(document.getElementById("hdlCholesterolDate").value + "T00:00:00");
-  console.log("totalCholesterol = " + totalCholesterol + " " + "totalCholesterolDate = " + totalCholesterolDate);
-  console.log("ldlCholesterol = " + ldlCholesterol + " " + "ldlCholesterolDate = " + ldlCholesterolDate);
-  console.log("hdlCholesterol = " + hdlCholesterol + " " + "hdlCholesterolDate = " + hdlCholesterolDate);
-// patient CompleteInformation AscvdRisk FemaleSmoker, William M Robinson
-// total cholesterol  - 2093-3 - 
-// ldl cholesterol: LDLc 13457-7, LDL direct assay 18262-6
-// hdl cholesterol  - 2085-9
+  var hdlCholesterolDate = 
+    document.getElementById("hdlCholesterolDate").value;
+  console.log(
+    "totalCholesterol = " +
+      totalCholesterol +
+      " " +
+      "totalCholesterolDate = " +
+      totalCholesterolDate
+  );
+  console.log(
+    "ldlCholesterol = " +
+      ldlCholesterol +
+      " " +
+      "ldlCholesterolDate = " +
+      ldlCholesterolDate
+  );
+  console.log(
+    "hdlCholesterol = " +
+      hdlCholesterol +
+      " " +
+      "hdlCholesterolDate = " +
+      hdlCholesterolDate
+  );
+  // patient CompleteInformation AscvdRisk FemaleSmoker, William M Robinson
+  // total cholesterol  - 2093-3 -
+  // ldl cholesterol: LDLc 13457-7, LDL direct assay 18262-6
+  // hdl cholesterol  - 2085-9
+  // you need a prefetch to pull out all lipid observation
+  let labPrototype = {
+    resourceType: "Observation",
+    status: "final",
+    category: [
+      {
+        coding: [
+          {
+            system:
+              "http://terminology.hl7.org/CodeSystem/observation-category",
+            code: "laboratory",
+            display: "Laboratory",
+          },
+        ],
+        text: "Laboratory",
+      },
+    ],
+    code: {
+      coding: [
+        {
+          system: "http://loinc.org",
+          code: "", // e.g. "13457-7"
+          display: "", // e.g. "LDLc SerPl Calc-mCnc"
+        },
+      ],
+      text: "LDLc SerPl Calc-mCnc", // e.g. "LDLc SerPl Calc-mCnc",
+    },
+    subject: {
+      reference: "Patient/smart-967332", // e.g. "Patient/smart-967332",
+    },
+    effectiveDateTime: ldlCholesterolDate, // e.g. "2008-03-16"
+    valueQuantity: {
+      value: 72, // e.g. 72
+      unit: "mg/dL",
+      system: "http://unitsofmeasure.org",
+      code: "mg/dL",
+    },
+  };
+  let ldl = labPrototype;
+  ldl.effectiveDateTime = ldlCholesterolDate;
+  ldl.subject.reference = "Patient/" + pt.id;
+  ldl.code.coding[0].code = "13457-7";
+  ldl.code.coding[0].display = "LDLc SerPl Calc-mCnc";
+  ldl.code.text = "LDLc SerPl Calc-mCnc";
+  ldl.valueQuantity.value = ldlCholesterol;
+
+  smart.create(ldl).then(function (error) {
+    document.getElementById("ptNameAndId").innerText = error.stack;
+  });
+  // console.log(ldl);
 }
