@@ -203,4 +203,8 @@ function setLipids(e) {
   console.log("totalCholesterol = " + totalCholesterol + " " + "totalCholesterolDate = " + totalCholesterolDate);
   console.log("ldlCholesterol = " + ldlCholesterol + " " + "ldlCholesterolDate = " + ldlCholesterolDate);
   console.log("hdlCholesterol = " + hdlCholesterol + " " + "hdlCholesterolDate = " + hdlCholesterolDate);
+// patient CompleteInformation AscvdRisk FemaleSmoker, William M Robinson
+// total cholesterol  - 2093-3 - 
+// ldl cholesterol: LDLc 13457-7, LDL direct assay 18262-6
+// hdl cholesterol  - 2085-9
 }
