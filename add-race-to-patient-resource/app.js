@@ -198,15 +198,18 @@ function setLipids(e, pt, smart) {
   var totalCholesterol = Number(
     document.getElementById("totalCholesterol").value
   );
-  var totalCholesterolDate = 
-    document.getElementById("totalCholesterolDate").value;
+  var totalCholesterolDate = document.getElementById(
+    "totalCholesterolDate"
+  ).value;
   console.log(totalCholesterolDate);
-  var ldlCalcCholesterol = Number(document.getElementById("ldlCalcCholesterol").value);
-  var ldlCalcCholesterolDate = 
-    document.getElementById("ldlCalcCholesterolDate").value;
+  var ldlCalcCholesterol = Number(
+    document.getElementById("ldlCalcCholesterol").value
+  );
+  var ldlCalcCholesterolDate = document.getElementById(
+    "ldlCalcCholesterolDate"
+  ).value;
   var hdlCholesterol = Number(document.getElementById("hdlCholesterol").value);
-  var hdlCholesterolDate = 
-    document.getElementById("hdlCholesterolDate").value;
+  var hdlCholesterolDate = document.getElementById("hdlCholesterolDate").value;
   console.log(
     "totalCholesterol = " +
       totalCholesterol +
@@ -261,46 +264,52 @@ function setLipids(e, pt, smart) {
       text: "LDLc SerPl Calc-mCnc", // e.g. "LDLc SerPl Calc-mCnc",
     },
     subject: {
-      reference: "Patient/smart-967332", // e.g. "Patient/smart-967332",
+      reference: "Patient/" + pt.id, // e.g. "Patient/smart-967332",
     },
     effectiveDateTime: ldlCalcCholesterolDate, // e.g. "2008-03-16"
     valueQuantity: {
-      value: 72, // e.g. 72
+      value: void 0, // e.g. 72
       unit: "mg/dL",
       system: "http://unitsofmeasure.org",
       code: "mg/dL",
     },
   };
-  let totalCholesterolObs = labObsTemplate;
-  totalCholesterolObs.effectiveDateTime = ldlCalcCholesterolDate;
-  totalCholesterolObs.subject.reference = "Patient/" + pt.id;
-  totalCholesterolObs.code.coding[0].code = "2093-3";
-  totalCholesterolObs.code.coding[0].display = "Cholesterol [Mass/volume] in Serum or Plasma";
-  totalCholesterolObs.code.text = "Cholesterol [Mass/volume] in Serum or Plasma";
-  totalCholesterolObs.valueQuantity.value = totalCholesterol;
-  smart.create(totalCholesterolObs).then(function (error) {
-    document.getElementById("ptNameAndId").innerText = error.stack;
-  });
-  let ldlCalcCholesterolObs = labObsTemplate;
-  ldlCalcCholesterolObs.effectiveDateTime = ldlCalcCholesterolDate;
-  ldlCalcCholesterolObs.subject.reference = "Patient/" + pt.id;
-  ldlCalcCholesterolObs.code.coding[0].code = "13457-7";
-  ldlCalcCholesterolObs.code.coding[0].display = "Cholesterol in LDL [Mass/volume] in Serum or Plasma by calculation";
-  ldlCalcCholesterolObs.code.text = "Cholesterol in LDL [Mass/volume] in Serum or Plasma by calculation";
-  ldlCalcCholesterolObs.valueQuantity.value = ldlCalcCholesterol;
-  smart.create(ldlCalcCholesterolObs).then(function (error) {
-    document.getElementById("ptNameAndId").innerText = error.stack;
-  });
-  let hdlCholesterolObs = labObsTemplate;
-  hdlCholesterolObs.effectiveDateTime = hdlCholesterolDate;
-  hdlCholesterolObs.subject.reference = "Patient/" + pt.id;
-  hdlCholesterolObs.code.coding[0].code = "2085-9";
-  hdlCholesterolObs.code.coding[0].display = "Cholesterol in HDL [Mass/volume] in Serum or Plasma";
-  hdlCholesterolObs.code.text = "Cholesterol in HDL [Mass/volume] in Serum or Plasma";
-  hdlCholesterolObs.valueQuantity.value = hdlCholesterol;
-  smart.create(hdlCholesterolObs).then(function (error) {
-    document.getElementById("ptNameAndId").innerText = error.stack;
-  });
+  function populateLabObs(labObs, labValue, labDate, labCode, labDisplay) {
+    // let labObs = labObsTemplate;
+    // labObs.subject.reference = "Patient/" + pt.id;
+    labObs.valueQuantity.value = labValue;
+    labObs.effectiveDateTime = labDate;
+    labObs.code.coding[0].code = labCode; // e.g. "2093-3";
+    labObs.code.coding[0].display = labDisplay; // e.g. "Cholesterol [Mass/volume] in Serum or Plasma";
+    labObs.code.text = labDisplay; // e.g. "Cholesterol [Mass/volume] in Serum or Plasma";
+    smart.create(labObs).then(function (error) {
+      document.getElementById("ptNameAndId").innerText = error.stack;
+    });
+  }
+  // total cholesterol
+  populateLabObs(
+    labObsTemplate,
+    totalCholesterol,
+    totalCholesterolDate,
+    "2093-3",
+    "Cholesterol [Mass/volume] in Serum or Plasma"
+  );
 
-  // console.log(ldlCalc);
+  // LDLc cholesterol
+  populateLabObs(
+    labObsTemplate,
+    ldlCalcCholesterol,
+    ldlCalcCholesterolDate,
+    "13457-7",
+    "Cholesterol in LDL [Mass/volume] in Serum or Plasma by calculation"
+  );
+  
+  // HDL cholesterol
+  populateLabObs(
+    labObsTemplate,
+    hdlCholesterol,
+    hdlCholesterolDate,
+    "2085-9",
+    "Cholesterol in HDL [Mass/volume] in Serum or Plasma"
+  );
 }
