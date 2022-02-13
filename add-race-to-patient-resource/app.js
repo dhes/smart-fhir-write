@@ -59,6 +59,9 @@ this.FHIR.oauth2
         document.getElementById("lipids").onsubmit = function () {
           setLipids(event, pt, smart);
         };
+        document.getElementById("smokingStatus").onsubmit = function () {
+          setSmokingStatus(pt, event);
+        };
         document.getElementById("submitRace").disabled = false;
         document.getElementById("removeRace").disabled = false;
       },
@@ -210,32 +213,6 @@ function setLipids(e, pt, smart) {
   ).value;
   var hdlCholesterol = Number(document.getElementById("hdlCholesterol").value);
   var hdlCholesterolDate = document.getElementById("hdlCholesterolDate").value;
-  console.log(
-    "totalCholesterol = " +
-      totalCholesterol +
-      " " +
-      "totalCholesterolDate = " +
-      totalCholesterolDate
-  );
-  console.log(
-    "ldlCalcCholesterol = " +
-      ldlCalcCholesterol +
-      " " +
-      "ldlCalcCholesterolDate = " +
-      ldlCalcCholesterolDate
-  );
-  console.log(
-    "hdlCholesterol = " +
-      hdlCholesterol +
-      " " +
-      "hdlCholesterolDate = " +
-      hdlCholesterolDate
-  );
-  // patient CompleteInformation AscvdRisk FemaleSmoker, William M Robinson
-  // total cholesterol 2093-3
-  // LDLc cholesterol 13457-7
-  // LDL direct assay 18262-6
-  // hdl cholesterol- 2085-9
   // you need a prefetch to pull out all lipid observation
   let labObsTemplate = {
     resourceType: "Observation",
@@ -314,31 +291,38 @@ function setLipids(e, pt, smart) {
   );
   // smoking history entry
 }
-let smokingObsTemplate = {
-  resourceType: "Observation",
-  status: "final",
-  code: {
-    coding: [
-      {
-        system: "http://loinc.org",
-        code: "72166-2",
-        display: "Tobacco smoking status",
-      },
-    ],
-    text: "Tobacco smoking status",
-  },
-  subject: {
-    reference: "Patient/" + pt.id, // e.g. "Patient/f7048ede-a570-4c13-985f-8f3d673d1eeb",
-  },
-  issued: "", // e.g. "2018-04-05T00:00:00.000Z" or just "201804-05"
-  valueCodeableConcept: {
-    coding: [
-      {
-        system: "http://snomed.info/sct",
-        code: "", // e.g. "266919005", "65568007", "8517006"
-        display: "", //e.g. "Never smoked tobacco (finding)", "Cigarette smoker (finding)", "Ex-smoker (finding)""
-      },
-    ],
-    text: "", // e.g. "Never smoked tobacco (finding)",
-  },
-};
+function setSmokingStatus(pt,e) {
+  e.preventDefault();
+  let smokingObsTemplate = {
+    resourceType: "Observation",
+    status: "final",
+    code: {
+      coding: [
+        {
+          system: "http://loinc.org",
+          code: "72166-2",
+          display: "Tobacco smoking status",
+        },
+      ],
+      text: "Tobacco smoking status",
+    },
+    subject: {
+      reference: "Patient/" + pt.id, // e.g. "Patient/f7048ede-a570-4c13-985f-8f3d673d1eeb",
+    },
+    issued: "", // e.g. "2018-04-05T00:00:00.000Z" or just "201804-05"
+    valueCodeableConcept: {
+      coding: [
+        {
+          system: "http://snomed.info/sct",
+          code: "", // e.g. "266919005", "65568007", "8517006"
+          display: "", //e.g. "Never smoked tobacco (finding)", "Cigarette smoker (finding)", "Ex-smoker (finding)""
+        },
+      ],
+      text: "", // e.g. "Never smoked tobacco (finding)",
+    },
+  };
+  var smokingStatus = document.querySelector(
+    "input[name = smokingStatus]:checked"
+  ).value;
+  console.log(smokingStatus);
+}
