@@ -32,7 +32,7 @@ this.FHIR.oauth2
             console.log("ombRaceCategoryCode = " + ombRaceCategoryCode);
           }
         }
-        // use the 'race' code to populate the radio buttons:
+        // use the 'race' code to populate the radio buttons:å
         switch (ombRaceCategoryCode) {
           case "1002-5":
             document.getElementById("nativeAmerican").checked = true;
@@ -60,7 +60,7 @@ this.FHIR.oauth2
           setLipids(event, pt, smart);
         };
         document.getElementById("smokingStatus").onsubmit = function () {
-          setSmokingStatus(pt, event);
+          setSmokingStatus(event, pt, smart);
         };
         document.getElementById("submitRace").disabled = false;
         document.getElementById("removeRace").disabled = false;
@@ -77,7 +77,9 @@ function setRaceCategory(e, pt, smart) {
   e.preventDefault();
   // let raceSelection = getRadioVal(document.getElementById("raceForm"), "race");
   // ...or...
-  let raceSelection = document.querySelector("input[name = race]:checked").value;
+  let raceSelection = document.querySelector(
+    "input[name = race]:checked"
+  ).value;
   console.log(raceSelection);
   let baseRace = {
     url: "http://hl7.org/fhir/us/core/StructureDefinition/us-core-race",
@@ -151,22 +153,6 @@ function setRaceCategory(e, pt, smart) {
       return bundle;
     });
 }
-// DH this form code is from https://www.dyn-web.com/tutorials/forms/radio/get-selected.php
-// function getRadioVal(form, name) {
-//   var val;
-//   // get list of radio buttons with specified name
-//   var radios = form.elements[name];
-
-//   // loop through list of radio buttons
-//   for (var i = 0, len = radios.length; i < len; i++) {
-//     if (radios[i].checked) {
-//       // radio checked?
-//       val = radios[i].value; // if so, hold its value in val
-//       break; // and break out of for loop
-//     }
-//   }
-//   return val; // return value of checked radio or undefined if none checked
-// }
 // assume no need to verify existence of an OMB 'race' entry
 function removeRaceCategory(e, pt, smart) {
   e.preventDefault();
@@ -293,8 +279,10 @@ function setLipids(e, pt, smart) {
   );
   // smoking history entry
 }
-function setSmokingStatus(pt,e) {
+function setSmokingStatus(e, pt, smart) {
   e.preventDefault();
+  let today = new Date();
+  let todayString = today.toISOString().substring(0, 10);
   let smokingObsTemplate = {
     resourceType: "Observation",
     status: "final",
@@ -311,20 +299,61 @@ function setSmokingStatus(pt,e) {
     subject: {
       reference: "Patient/" + pt.id, // e.g. "Patient/f7048ede-a570-4c13-985f-8f3d673d1eeb",
     },
-    issued: "", // e.g. "2018-04-05T00:00:00.000Z" or just "201804-05"
+    effectiveDateTime: todayString, // e.g. "2018-04-05T00:00:00.000Z" or just "201804-05"
     valueCodeableConcept: {
       coding: [
         {
           system: "http://snomed.info/sct",
-          code: "", // e.g. "266919005", "65568007", "8517006"
-          display: "", //e.g. "Never smoked tobacco (finding)", "Cigarette smoker (finding)", "Ex-smoker (finding)""
+          code: "", // e.g. "65568007"
+          display: "", //e.g. "Cigarette smoker (finding)"
         },
       ],
-      text: "", // e.g. "Never smoked tobacco (finding)",
+      text: "", // e.g. "Cigarette smoker (finding)"
     },
   };
   var smokingStatus = document.querySelector(
     "input[name = smokingStatus]:checked"
   ).value;
-  console.log(smokingStatus);
+  // console.log(smokingStatus);
+  let smokingStatusObs = smokingObsTemplate;
+  // console.log(smokingStatusObs.issued);
+  switch (smokingStatus) {
+    case "currentSmoker":
+      smokingStatusObs.valueCodeableConcept.coding[0].code = "65568007";
+      smokingStatusObs.valueCodeableConcept.coding[0].display =
+        "Cigarette smoker (finding)";
+      smokingStatusObs.valueCodeableConcept.text =
+        "Cigarette smoker (finding)";
+      break;
+    case "exSmoker":
+      smokingStatusObs.valueCodeableConcept.coding[0].code = "8517006";
+      smokingStatusObs.valueCodeableConcept.coding[0].display =
+        "Ex-smoker (finding)";
+      smokingStatusObs.valueCodeableConcept.text =
+        "Ex-smoker (finding)";
+      break;
+    case "neverSmoker":
+      smokingStatusObs.valueCodeableConcept.coding[0].code = "266919005";
+      smokingStatusObs.valueCodeableConcept.coding[0].display =
+        "Never smoked tobacco (finding)";
+      smokingStatusObs.valueCodeableConcept.text =
+        "Never smoked tobacco (finding)";
+      break;
+  }
+  smart.create(smokingStatusObs)
+  // .then(function (error) {
+  //   document.getElementById("ptNameAndId").innerText = error.stack;
+  // });
+  .catch(function (e) {
+    alert(
+      "An error occured with the update"
+    );
+    throw e;
+  })
+  .then(function (bundle) {
+    alert("Patient update succeeded!");
+    return bundle;
+  });
+
 }
+
