@@ -75,7 +75,9 @@ this.FHIR.oauth2
 function setRaceCategory(e, pt, smart) {
   // prevent get and reload default behavior
   e.preventDefault();
-  let raceSelection = getRadioVal(document.getElementById("raceForm"), "race");
+  // let raceSelection = getRadioVal(document.getElementById("raceForm"), "race");
+  // ...or...
+  let raceSelection = document.querySelector("input[name = race]:checked").value;
   console.log(raceSelection);
   let baseRace = {
     url: "http://hl7.org/fhir/us/core/StructureDefinition/us-core-race",
@@ -150,21 +152,21 @@ function setRaceCategory(e, pt, smart) {
     });
 }
 // DH this form code is from https://www.dyn-web.com/tutorials/forms/radio/get-selected.php
-function getRadioVal(form, name) {
-  var val;
-  // get list of radio buttons with specified name
-  var radios = form.elements[name];
+// function getRadioVal(form, name) {
+//   var val;
+//   // get list of radio buttons with specified name
+//   var radios = form.elements[name];
 
-  // loop through list of radio buttons
-  for (var i = 0, len = radios.length; i < len; i++) {
-    if (radios[i].checked) {
-      // radio checked?
-      val = radios[i].value; // if so, hold its value in val
-      break; // and break out of for loop
-    }
-  }
-  return val; // return value of checked radio or undefined if none checked
-}
+//   // loop through list of radio buttons
+//   for (var i = 0, len = radios.length; i < len; i++) {
+//     if (radios[i].checked) {
+//       // radio checked?
+//       val = radios[i].value; // if so, hold its value in val
+//       break; // and break out of for loop
+//     }
+//   }
+//   return val; // return value of checked radio or undefined if none checked
+// }
 // assume no need to verify existence of an OMB 'race' entry
 function removeRaceCategory(e, pt, smart) {
   e.preventDefault();
