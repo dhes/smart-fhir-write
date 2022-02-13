@@ -303,7 +303,7 @@ function setLipids(e, pt, smart) {
     "13457-7",
     "Cholesterol in LDL [Mass/volume] in Serum or Plasma by calculation"
   );
-  
+
   // HDL cholesterol
   populateLabObs(
     labObsTemplate,
@@ -312,4 +312,33 @@ function setLipids(e, pt, smart) {
     "2085-9",
     "Cholesterol in HDL [Mass/volume] in Serum or Plasma"
   );
+  // smoking history entry
 }
+let smokingObsTemplate = {
+  resourceType: "Observation",
+  status: "final",
+  code: {
+    coding: [
+      {
+        system: "http://loinc.org",
+        code: "72166-2",
+        display: "Tobacco smoking status",
+      },
+    ],
+    text: "Tobacco smoking status",
+  },
+  subject: {
+    reference: "Patient/" + pt.id, // e.g. "Patient/f7048ede-a570-4c13-985f-8f3d673d1eeb",
+  },
+  issued: "", // e.g. "2018-04-05T00:00:00.000Z" or just "201804-05"
+  valueCodeableConcept: {
+    coding: [
+      {
+        system: "http://snomed.info/sct",
+        code: "", // e.g. "266919005", "65568007", "8517006"
+        display: "", //e.g. "Never smoked tobacco (finding)", "Cigarette smoker (finding)", "Ex-smoker (finding)""
+      },
+    ],
+    text: "", // e.g. "Never smoked tobacco (finding)",
+  },
+};
