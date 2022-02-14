@@ -369,4 +369,5 @@ function setSmokingStatus(e, pt, smart) {
       "-" +
       twoDigitDay.format(d);
   }
+  return dateString;
 }
