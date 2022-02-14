@@ -282,10 +282,23 @@ function setLipids(e, pt, smart) {
 function setSmokingStatus(e, pt, smart) {
   e.preventDefault();
   let today = new Date();
-  let todayString = today.toISOString().substring(0, 10);
+  // let todayString = today.toISOString().substring(0, 10);
   let smokingObsTemplate = {
     resourceType: "Observation",
     status: "final",
+    category: [
+      {
+        coding: [
+          {
+            system:
+              "http://terminology.hl7.org/CodeSystem/observation-category",
+            code: "social-history",
+            display: "Social History",
+          },
+        ],
+        text: "Social History",
+      },
+    ],
     code: {
       coding: [
         {
@@ -299,7 +312,7 @@ function setSmokingStatus(e, pt, smart) {
     subject: {
       reference: "Patient/" + pt.id, // e.g. "Patient/f7048ede-a570-4c13-985f-8f3d673d1eeb",
     },
-    effectiveDateTime: todayString, // e.g. "2018-04-05T00:00:00.000Z" or just "201804-05"
+    effectiveDateTime: europeStyleDate(today), // e.g. "2018-04-05T00:00:00.000Z" or just "201804-05"
     valueCodeableConcept: {
       coding: [
         {
@@ -311,6 +324,10 @@ function setSmokingStatus(e, pt, smart) {
       text: "", // e.g. "Cigarette smoker (finding)"
     },
   };
+  console.log(
+    "smokingObsTemplate.effectiveDateTime =" +
+      smokingObsTemplate.effectiveDateTime
+  );
   var smokingStatus = document.querySelector(
     "input[name = smokingStatus]:checked"
   ).value;
@@ -351,23 +368,23 @@ function setSmokingStatus(e, pt, smart) {
       alert("Patient update succeeded!");
       return bundle;
     });
-  function europeStyleDate(d) {
-    let twoDigitMonth = new Intl.DateTimeFormat("en-US", {
-      month: "2-digit",
-    });
-    let twoDigitDay = new Intl.DateTimeFormat("en-US", {
-      day: "2-digit",
-    });
-    let fourDigitYear = new Intl.DateTimeFormat("en-US", {
-      year: "numeric",
-    });
+}
+function europeStyleDate(d) {
+  let twoDigitMonth = new Intl.DateTimeFormat("en-US", {
+    month: "2-digit",
+  });
+  let twoDigitDay = new Intl.DateTimeFormat("en-US", {
+    day: "2-digit",
+  });
+  let fourDigitYear = new Intl.DateTimeFormat("en-US", {
+    year: "numeric",
+  });
 
-    let dateString =
-      fourDigitYear.format(d) +
-      "-" +
-      twoDigitMonth.format(d) +
-      "-" +
-      twoDigitDay.format(d);
-  }
+  let dateString =
+    fourDigitYear.format(d) +
+    "-" +
+    twoDigitMonth.format(d) +
+    "-" +
+    twoDigitDay.format(d);
   return dateString;
 }
