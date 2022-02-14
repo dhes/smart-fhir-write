@@ -322,15 +322,13 @@ function setSmokingStatus(e, pt, smart) {
       smokingStatusObs.valueCodeableConcept.coding[0].code = "65568007";
       smokingStatusObs.valueCodeableConcept.coding[0].display =
         "Cigarette smoker (finding)";
-      smokingStatusObs.valueCodeableConcept.text =
-        "Cigarette smoker (finding)";
+      smokingStatusObs.valueCodeableConcept.text = "Cigarette smoker (finding)";
       break;
     case "exSmoker":
       smokingStatusObs.valueCodeableConcept.coding[0].code = "8517006";
       smokingStatusObs.valueCodeableConcept.coding[0].display =
         "Ex-smoker (finding)";
-      smokingStatusObs.valueCodeableConcept.text =
-        "Ex-smoker (finding)";
+      smokingStatusObs.valueCodeableConcept.text = "Ex-smoker (finding)";
       break;
     case "neverSmoker":
       smokingStatusObs.valueCodeableConcept.coding[0].code = "266919005";
@@ -340,20 +338,35 @@ function setSmokingStatus(e, pt, smart) {
         "Never smoked tobacco (finding)";
       break;
   }
-  smart.create(smokingStatusObs)
-  // .then(function (error) {
-  //   document.getElementById("ptNameAndId").innerText = error.stack;
-  // });
-  .catch(function (e) {
-    alert(
-      "An error occured with the update"
-    );
-    throw e;
-  })
-  .then(function (bundle) {
-    alert("Patient update succeeded!");
-    return bundle;
-  });
+  smart
+    .create(smokingStatusObs)
+    // .then(function (error) {
+    //   document.getElementById("ptNameAndId").innerText = error.stack;
+    // });
+    .catch(function (e) {
+      alert("An error occured with the update");
+      throw e;
+    })
+    .then(function (bundle) {
+      alert("Patient update succeeded!");
+      return bundle;
+    });
+  function europeStyleDate(d) {
+    let twoDigitMonth = new Intl.DateTimeFormat("en-US", {
+      month: "2-digit",
+    });
+    let twoDigitDay = new Intl.DateTimeFormat("en-US", {
+      day: "2-digit",
+    });
+    let fourDigitYear = new Intl.DateTimeFormat("en-US", {
+      year: "numeric",
+    });
 
+    let dateString =
+      fourDigitYear.format(d) +
+      "-" +
+      twoDigitMonth.format(d) +
+      "-" +
+      twoDigitDay.format(d);
+  }
 }
-
