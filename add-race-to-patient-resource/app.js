@@ -392,19 +392,102 @@ function europeStyleDate(d) {
   return dateString;
 }
 function setBloodPressure(e, pt, smart) {
-console.log(e,pt,smart); // DH suppress warnings; delete me
-e.preventDefault();
-var systolicBloodPressure = Number(
-  document.getElementById("systolicBloodPressure").value
-);
-var systolicBloodPressureDate = document.getElementById(
-  "systolicBloodPressureDate"
-).value;
-var diastolicBloodPressure = Number(
-  document.getElementById("diastolicBloodPressure").value
-);
-var diastolicBloodPressureDate = document.getElementById(
-  "diastolicBloodPressureDate"
-).value;
-console.log(systolicBloodPressure, systolicBloodPressureDate, diastolicBloodPressure, diastolicBloodPressureDate)
+  e.preventDefault();
+  var systolicBloodPressure = Number(
+    document.getElementById("systolicBloodPressure").value
+  );
+  var diastolicBloodPressure = Number(
+    document.getElementById("diastolicBloodPressure").value
+  );
+  var bloodPressureDate = document.getElementById(
+    "bloodPressureDate"
+  ).value;
+  console.log(
+    systolicBloodPressure,
+    diastolicBloodPressure,
+    bloodPressureDate
+  );
+  let bloodPressureObs = {
+    resourceType: "Observation",
+    status: "final",
+    category: [
+      {
+        coding: [
+          {
+            system:
+              "http://terminology.hl7.org/CodeSystem/observation-category",
+            code: "vital-signs",
+            display: "Vital Signs",
+          },
+        ],
+        text: "Vital Signs",
+      },
+    ],
+    code: {
+      coding: [
+        {
+          system: "http://loinc.org",
+          code: "85354-9",
+          display: "Blood pressure panel with all children optional",
+        },
+      ],
+      text: "Blood pressure panel with all children optional",
+    },
+    subject: {
+      reference: "Patient/" + pt.id // e.g. "Patient/smart-967332"
+    },
+    effectiveDateTime: bloodPressureDate, // e.g. "2001-09-15"
+    component: [
+      {
+        code: {
+          coding: [
+            {
+              system: "http://loinc.org",
+              code: "8480-6",
+              display: "Systolic blood pressure",
+            },
+          ],
+          text: "Systolic blood pressure",
+        },
+        valueQuantity: {
+          value: systolicBloodPressure, // e.g. 178,
+          unit: "mmHg",
+          system: "http://unitsofmeasure.org",
+          code: "mm[Hg]",
+        },
+      },
+      {
+        code: {
+          coding: [
+            {
+              system: "http://loinc.org",
+              code: "8462-4",
+              display: "Diastolic blood pressure",
+            },
+          ],
+          text: "Diastolic blood pressure",
+        },
+        valueQuantity: {
+          value: diastolicBloodPressure, // e.g. 119,
+          unit: "mmHg",
+          system: "http://unitsofmeasure.org",
+          code: "mm[Hg]",
+        },
+      },
+    ],
+  };
+  smart
+    .create(bloodPressureObs)
+    // .then(function (error) {
+    //   document.getElementById("ptNameAndId").innerText = error.stack;
+    // });
+    .catch(function (e) {
+      alert("An error occured with the update");
+      throw e;
+    })
+    .then(function (bundle) {
+      alert("Patient update succeeded!");
+      return bundle;
+    });
+
 }
