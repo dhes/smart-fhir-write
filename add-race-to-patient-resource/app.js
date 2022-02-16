@@ -62,6 +62,9 @@ this.FHIR.oauth2
         document.getElementById("smokingStatus").onsubmit = function () {
           setSmokingStatus(event, pt, smart);
         };
+        document.getElementById("bloodPressure").onsubmit = function () {
+          setBloodPressure(event, pt, smart);
+        };
         document.getElementById("submitRace").disabled = false;
         document.getElementById("removeRace").disabled = false;
       },
@@ -387,4 +390,21 @@ function europeStyleDate(d) {
     "-" +
     twoDigitDay.format(d);
   return dateString;
+}
+function setBloodPressure(e, pt, smart) {
+console.log(e,pt,smart); // DH suppress warnings; delete me
+e.preventDefault();
+var systolicBloodPressure = Number(
+  document.getElementById("systolicBloodPressure").value
+);
+var systolicBloodPressureDate = document.getElementById(
+  "systolicBloodPressureDate"
+).value;
+var diastolicBloodPressure = Number(
+  document.getElementById("diastolicBloodPressure").value
+);
+var diastolicBloodPressureDate = document.getElementById(
+  "diastolicBloodPressureDate"
+).value;
+console.log(systolicBloodPressure, systolicBloodPressureDate, diastolicBloodPressure, diastolicBloodPressureDate)
 }
