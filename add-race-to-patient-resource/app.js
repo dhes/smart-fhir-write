@@ -65,6 +65,9 @@ this.FHIR.oauth2
         document.getElementById("bloodPressure").onsubmit = function () {
           setBloodPressure(event, pt, smart);
         };
+        document.getElementById("ascvdRisk").onsubmit = function () {
+          setAscvdRisk(event, pt, smart);
+        };
         document.getElementById("submitRace").disabled = false;
         document.getElementById("removeRace").disabled = false;
       },
@@ -336,7 +339,6 @@ function setSmokingStatus(e, pt, smart) {
   ).value;
   // console.log(smokingStatus);
   let smokingStatusObs = smokingObsTemplate;
-  // console.log(smokingStatusObs.issued);
   switch (smokingStatus) {
     case "currentSmoker":
       smokingStatusObs.valueCodeableConcept.coding[0].code = "65568007";
@@ -399,14 +401,8 @@ function setBloodPressure(e, pt, smart) {
   var diastolicBloodPressure = Number(
     document.getElementById("diastolicBloodPressure").value
   );
-  var bloodPressureDate = document.getElementById(
-    "bloodPressureDate"
-  ).value;
-  console.log(
-    systolicBloodPressure,
-    diastolicBloodPressure,
-    bloodPressureDate
-  );
+  var bloodPressureDate = document.getElementById("bloodPressureDate").value;
+  console.log(systolicBloodPressure, diastolicBloodPressure, bloodPressureDate);
   let bloodPressureObs = {
     resourceType: "Observation",
     status: "final",
@@ -434,7 +430,7 @@ function setBloodPressure(e, pt, smart) {
       text: "Blood pressure panel with all children optional",
     },
     subject: {
-      reference: "Patient/" + pt.id // e.g. "Patient/smart-967332"
+      reference: "Patient/" + pt.id, // e.g. "Patient/smart-967332"
     },
     effectiveDateTime: bloodPressureDate, // e.g. "2001-09-15"
     component: [
@@ -489,5 +485,50 @@ function setBloodPressure(e, pt, smart) {
       alert("Patient update succeeded!");
       return bundle;
     });
-
+}
+function setAscvdRisk(e, pt, smart) {
+  e.preventDefault();
+  var ascvdRiskPercent = Number(
+    document.getElementById("ascvdRiskPercent").value
+  );
+  let today = new Date();
+  let ascvdRiskObs = {
+    resourceType: "Observation",
+    subject: {
+      reference: "Patient/" + pt.id, // e.g. "Patient/a6c7f012-0b32-4048-8c8b-27d2763b8cdc",
+    },
+    status: "final",
+    code: {
+      coding: [
+        {
+          system: "http://loinc.org",
+          code: "79423-0",
+          display:
+            "Cardiovascular disease 10Y risk [Likelihood] ACC-AHA Pooled Cohort by Goff 2013",
+        },
+      ],
+      text: "Cardiovascular disease 10Y risk [Likelihood] ACC-AHA Pooled Cohort by Goff 2013",
+    },
+    valueQuantity: {
+      value: ascvdRiskPercent, // e.g. 15.1
+      unit: "%",
+      system: "http://unitsofmeasure.org",
+      code: "%",
+    },
+    effectiveDateTime: europeStyleDate(today) // e.g. "2021-04-05"
+  };
+  console.log(ascvdRiskObs);
+  smart
+    .create(ascvdRiskObs)
+    // .then(function (error) {
+    //   document.getElementById("ptNameAndId").innerText = error.stack;
+    // });
+    .catch(function (e) {
+      alert("An error occured with the update");
+      throw e;
+    })
+    .then(function (bundle) {
+      alert("Patient update succeeded!");
+      return bundle;
+    });
 }
