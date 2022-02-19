@@ -405,7 +405,7 @@ function setBloodPressure(e, pt, smart) {
     document.getElementById("diastolicBloodPressure").value
   );
   var bloodPressureDate = document.getElementById("bloodPressureDate").value;
-  console.log(systolicBloodPressure, diastolicBloodPressure, bloodPressureDate);
+  // console.log(systolicBloodPressure, diastolicBloodPressure, bloodPressureDate);
   let bloodPressureObs = {
     resourceType: "Observation",
     status: "final",
@@ -587,4 +587,8 @@ function addMedicationRequest(e, pt,smart ) {
       },
     },
   };
+  var systolicBloodPressure = Number(
+    document.getElementById("systolicBloodPressure").value
+  );
+
 }

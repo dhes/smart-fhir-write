@@ -1,0 +1,168 @@
+(You can cut and paste this into a spreadsheet)
+source: http://hl7.org/fhir/R4/v3/orderableDrugForm/vs.html
+Lvl	Code	Display	Definition	internalId	status	Not Selectable	Parent
+1	_AdministrableDrugForm	AdministrableDrugForm		21101	active	true	
+2	  APPFUL	Applicatorful		14572	active		_AdministrableDrugForm
+2	  DROP	Drops		14420	active		_AdministrableDrugForm, SOL
+3	    NDROP	Nasal Drops		14422	active		DROP
+3	    OPDROP	Ophthalmic Drops		14421	active		DROP
+3	    ORDROP	Oral Drops		14423	active		DROP, ORALSOL
+3	    OTDROP	Otic Drops		14424	active		DROP
+2	  PUFF	Puff		14571	active		_AdministrableDrugForm
+2	  SCOOP	Scoops		14574	active		_AdministrableDrugForm
+2	  SPRY	Sprays		14573	active		_AdministrableDrugForm
+1	_DispensableDrugForm	DispensableDrugForm		21102	active	true	
+2	  _GasDrugForm	GasDrugForm	Any elastic aeriform fluid in which the molecules are separated from one another and have free paths.	21103	active	true	_DispensableDrugForm
+3	    GASINHL	Gas for Inhalation		14569	active		_GasDrugForm
+2	  _GasLiquidMixture	GasLiquidMixture		21104	active	true	_DispensableDrugForm
+3	    AER	Aerosol		14551	active		_GasLiquidMixture
+4	      BAINHL	Breath Activated Inhaler		14553	active		AER
+4	      INHLSOL	Inhalant Solution		14555	active		AER
+4	      MDINHL	Metered Dose Inhaler		14552	active		AER
+4	      NASSPRY	Nasal Spray		14554	active		AER
+3	    DERMSPRY	Dermal Spray		14556	active		_GasLiquidMixture
+3	    FOAM	Foam		14546	active		_GasLiquidMixture
+4	      FOAMAPL	Foam with Applicator		14547	active		FOAM
+4	      RECFORM	Rectal foam		14548	active		FOAM
+4	      VAGFOAM	Vaginal foam		14549	active		FOAM
+5	        VAGFOAMAPL	Vaginal foam with applicator		14550	active		VAGFOAM
+3	    RECSPRY	Rectal Spray		14557	active		_GasLiquidMixture
+3	    VAGSPRY	Vaginal Spray		14558	active		_GasLiquidMixture
+2	  _GasSolidSpray	GasSolidSpray		21105	active	true	_DispensableDrugForm
+3	    INHL	Inhalant		14560	active		_GasSolidSpray
+4	      BAINHLPWD	Breath Activated Powder Inhaler		14562	active		INHL
+4	      INHLPWD	Inhalant Powder		14561	active		INHL
+4	      MDINHLPWD	Metered Dose Powder Inhaler		14563	active		INHL
+4	      NASINHL	Nasal Inhalant		14564	active		INHL
+4	      ORINHL	Oral Inhalant		14565	active		INHL
+3	    PWDSPRY	Powder Spray		14567	active		_GasSolidSpray
+3	    SPRYADAPT	Spray with Adaptor		14566	active		_GasSolidSpray
+2	  _Liquid	Liquid	A state of substance that is an intermediate one entered into as matter goes from solid to gas; liquids are also intermediate in that they have neither the orderliness of a crystal nor the randomness of a gas. (Note: This term should not be used to describe solutions, only pure chemicals in their liquid state.)	21106	active	true	_DispensableDrugForm
+3	    LIQCLN	Liquid Cleanser		14414	active		_Liquid
+4	      LIQSOAP	Medicated Liquid Soap		14415	active		LIQCLN
+4	      SHMP	Shampoo	A liquid soap or detergent used to clean the hair and scalp and is often used as a vehicle for dermatologic agents.	14416	active		LIQCLN
+3	    OIL	Oil	An unctuous, combustible substance which is liquid, or easily liquefiable, on warming, and is soluble in ether but insoluble in water. Such substances, depending on their origin, are classified as animal, mineral, or vegetable oils.	14417	active		_Liquid
+4	      TOPOIL	Topical Oil		14418	active		OIL
+3	    SOL	Solution	A liquid preparation that contains one or more chemical substances dissolved, i.e., molecularly dispersed, in a suitable solvent or mixture of mutually miscible solvents.	14419	active		_Liquid
+4	      IPSOL	Intraperitoneal Solution		14425	active		SOL
+4	      IRSOL	Irrigation Solution	A sterile solution intended to bathe or flush open wounds or body cavities; they're used topically, never parenterally.	14427	active		SOL
+5	        DOUCHE	Douche	A liquid preparation, intended for the irrigative cleansing of the vagina, that is prepared from powders, liquid solutions, or liquid concentrates and contains one or more chemical substances dissolved in a suitable solvent or mutually miscible solvents.	14428	active		IRSOL
+5	        ENEMA	Enema	A rectal preparation for therapeutic, diagnostic, or nutritive purposes.	14429	active		IRSOL
+5	        OPIRSOL	Ophthalmic Irrigation Solution		14430	active		IRSOL
+4	      IVSOL	Intravenous Solution		14426	active		SOL
+4	      ORALSOL	Oral Solution		14431	active		SOL
+5	        ELIXIR	Elixir	A clear, pleasantly flavored, sweetened hydroalcoholic liquid containing dissolved medicinal agents; it is intended for oral use.	14432	active		ORALSOL
+5	        RINSE	Mouthwash/Rinse	An aqueous solution which is most often used for its deodorant, refreshing, or antiseptic effect.	14434	active		ORALSOL
+5	        SYRUP	Syrup	An oral solution containing high concentrations of sucrose or other sugars; the term has also been used to include any other liquid dosage form prepared in a sweet and viscid vehicle, including oral suspensions.	14433	active		ORALSOL
+5	        ORDROP	Oral Drops	
+4	      RECSOL	Rectal Solution		14436	active		SOL
+4	      TOPSOL	Topical Solution		14437	active		SOL
+5	        LIN	Liniment	A solution or mixture of various substances in oil, alcoholic solutions of soap, or emulsions intended for external application.	14438	active		TOPSOL
+5	        MUCTOPSOL	Mucous Membrane Topical Solution		14440	active		TOPSOL
+5	        TINC	Tincture		14439	active		TOPSOL
+4	      DROP	Drops	
+2	  _LiquidLiquidEmulsion	LiquidLiquidEmulsion	A two-phase system in which one liquid is dispersed throughout another liquid in the form of small droplets.	21107	active	true	_DispensableDrugForm
+3	    CRM	Cream	A semisolid dosage form containing one or more drug substances dissolved or dispersed in a suitable base; more recently, the term has been restricted to products consisting of oil-in-water emulsions or aqueous microcrystalline dispersions of long chain fatty acids or alcohols that are water washable and more cosmetically and aesthetically acceptable.	14466	active		_LiquidLiquidEmulsion
+4	      NASCRM	Nasal Cream		14467	active		CRM
+4	      OPCRM	Ophthalmic Cream		14468	active		CRM
+4	      ORCRM	Oral Cream		14469	active		CRM
+4	      OTCRM	Otic Cream		14470	active		CRM
+4	      RECCRM	Rectal Cream		14471	active		CRM
+4	      TOPCRM	Topical Cream		14472	active		CRM
+4	      VAGCRM	Vaginal Cream		14473	active		CRM
+5	        VAGCRMAPL	Vaginal Cream with Applicator		14474	active		VAGCRM
+3	    LTN	Lotion	The term "lotion" has been used to categorize many topical suspensions, solutions and emulsions intended for application to the skin.	14464	active		_LiquidLiquidEmulsion
+4	      TOPLTN	Topical Lotion		14465	active		LTN
+3	    OINT	Ointment	A semisolid preparation intended for external application to the skin or mucous membranes.	14475	active		_LiquidLiquidEmulsion
+4	      NASOINT	Nasal Ointment		14479	active		OINT
+4	      OINTAPL	Ointment with Applicator		14476	active		OINT
+4	      OPOINT	Ophthalmic Ointment		14477	active		OINT
+4	      OTOINT	Otic Ointment		14478	active		OINT
+4	      RECOINT	Rectal Ointment		14480	active		OINT
+4	      TOPOINT	Topical Ointment		14481	active		OINT
+4	      VAGOINT	Vaginal Ointment		14482	active		OINT
+5	        VAGOINTAPL	Vaginal Ointment with Applicator		14483	active		VAGOINT
+2	  _LiquidSolidSuspension	LiquidSolidSuspension	A liquid preparation which consists of solid particles dispersed throughout a liquid phase in which the particles are not soluble.	21108	active	true	_DispensableDrugForm
+3	    GEL	Gel	A semisolid system consisting of either suspensions made up of small inorganic particles or large organic molecules interpenetrated by a liquid.	14442	active		_LiquidSolidSuspension
+4	      GELAPL	Gel with Applicator		14443	active		GEL
+4	      NASGEL	Nasal Gel		14444	active		GEL
+4	      OPGEL	Ophthalmic Gel		14445	active		GEL
+4	      OTGEL	Otic Gel		14446	active		GEL
+4	      TOPGEL	Topical Gel		14447	active		GEL
+4	      URETHGEL	Urethral Gel		14448	active		GEL
+4	      VAGGEL	Vaginal Gel		14449	active		GEL
+5	        VGELAPL	Vaginal Gel with Applicator		14450	active		VAGGEL
+3	    PASTE	Paste	A semisolid dosage form that contains one or more drug substances intended for topical application.	14451	active		_LiquidSolidSuspension
+4	      PUD	Pudding		14453	active		PASTE
+4	      TPASTE	Toothpaste	A paste formulation intended to clean and/or polish the teeth, and which may contain certain additional agents.	14452	active		PASTE
+3	    SUSP	Suspension		14454	active		_LiquidSolidSuspension
+4	      ITSUSP	Intrathecal Suspension		14455	active		SUSP
+4	      OPSUSP	Ophthalmic Suspension		14456	active		SUSP
+4	      ORSUSP	Oral Suspension		14457	active		SUSP
+5	        ERSUSP	Extended-Release Suspension		14458	active		ORSUSP
+6	          ERSUSP12	12 Hour Extended-Release Suspension		14459	active		ERSUSP
+6	          ERSUSP24	24 Hour Extended Release Suspension		14460	active		ERSUSP
+4	      OTSUSP	Otic Suspension		14461	active		SUSP
+4	      RECSUSP	Rectal Suspension		14462	active		SUSP
+2	  _SolidDrugForm	SolidDrugForm		21109	active	true	_DispensableDrugForm
+3	    BAR	Bar		14485	active		_SolidDrugForm
+4	      BARSOAP	Bar Soap		14486	active		BAR
+5	        MEDBAR	Medicated Bar Soap		14487	active		BARSOAP
+4	      CHEWBAR	Chewable Bar	A solid dosage form usually in the form of a rectangle that is meant to be chewed.	14488	active		BAR
+3	    BEAD	Beads	A solid dosage form in the shape of a small ball.	14489	active		_SolidDrugForm
+3	    CAKE	Cake		14490	active		_SolidDrugForm
+3	    CEMENT	Cement	A substance that serves to produce solid union between two surfaces.	14491	active		_SolidDrugForm
+3	    CRYS	Crystals	A naturally produced angular solid of definite form in which the ultimate units from which it is built up are systematically arranged; they are usually evenly spaced on a regular space lattice.	14492	active		_SolidDrugForm
+3	    DISK	Disk	A circular plate-like organ or structure.	14493	active		_SolidDrugForm
+3	    FLAKE	Flakes		14494	active		_SolidDrugForm
+3	    GRAN	Granules	A small particle or grain.	14495	active		_SolidDrugForm
+3	    GUM	ChewingGum	A sweetened and flavored insoluble plastic material of various shapes which when chewed, releases a drug substance into the oral cavity.	14496	active		_SolidDrugForm
+3	    PAD	Pad		14497	active		_SolidDrugForm
+4	      MEDPAD	Medicated Pad		14498	active		PAD
+3	    PATCH	Patch	A drug delivery system that contains an adhesived backing and that permits its ingredients to diffuse from some portion of it (e.g., the backing itself, a reservoir, the adhesive, or some other component) into the body from the external site where it is applied.	14499	active		_SolidDrugForm
+4	      TPATCH	Transdermal Patch		14500	active		PATCH
+5	        TPATH16	16 Hour Transdermal Patch		14501	active		TPATCH
+5	        TPATH24	24 Hour Transdermal Patch		14502	active		TPATCH
+5	        TPATH2WK	Biweekly Transdermal Patch		14505	active		TPATCH
+5	        TPATH72	72 Hour Transdermal Patch		14503	active		TPATCH
+5	        TPATHWK	Weekly Transdermal Patch		14504	active		TPATCH
+3	    PELLET	Pellet	A small sterile solid mass consisting of a highly purified drug (with or without excipients) made by the formation of granules, or by compression and molding.	14533	active		_SolidDrugForm
+3	    PILL	Pill	A small, round solid dosage form containing a medicinal agent intended for oral administration.	14506	active		_SolidDrugForm
+4	      CAP	Capsule	A solid dosage form in which the drug is enclosed within either a hard or soft soluble container or "shell" made from a suitable form of gelatin.	14507	active		PILL
+5	        ORCAP	Oral Capsule		14508	active		CAP
+6	          ENTCAP	Enteric Coated Capsule		14509	active		ORCAP
+7	            ERENTCAP	Extended Release Enteric Coated Capsule		14510	active		ENTCAP, ERCAP
+6	          ERCAP	Extended Release Capsule	A solid dosage form in which the drug is enclosed within either a hard or soft soluble container made from a suitable form of gelatin, and which releases a drug (or drugs) in such a manner to allow a reduction in dosing frequency as compared to that drug (or drugs) presented as a conventional dosage form.	14511	active		ORCAP
+7	            ERCAP12	12 Hour Extended Release Capsule		14513	active		ERCAP
+7	            ERCAP24	24 Hour Extended Release Capsule		14514	active		ERCAP
+7	            ERECCAP	Extended Release Enteric Coated Capsule	*Rationale:* Duplicate of code ERENTCAP. Use code ERENTCAP instead.	14512	retired		ERCAP
+7	            ERENTCAP	Extended Release Enteric Coated Capsule	
+4	      TAB	Tablet	A solid dosage form containing medicinal substances with or without suitable diluents.	14515	active		PILL
+5	        ORTAB	Oral Tablet		14516	active		TAB
+6	          BUCTAB	Buccal Tablet		14518	active		ORTAB
+7	            SRBUCTAB	Sustained Release Buccal Tablet		14519	active		BUCTAB
+6	          CAPLET	Caplet		14517	active		ORTAB
+6	          CHEWTAB	Chewable Tablet	A solid dosage form containing medicinal substances with or without suitable diluents that is intended to be chewed, producing a pleasant tasting residue in the oral cavity that is easily swallowed and does not leave a bitter or unpleasant after-taste.	14520	active		ORTAB
+6	          CPTAB	Coated Particles Tablet		14521	active		ORTAB
+6	          DISINTAB	Disintegrating Tablet	A solid dosage form containing medicinal substances which disintegrates rapidly, usually within a matter of seconds, when placed upon the tongue.	14523	active		ORTAB
+6	          DRTAB	Delayed Release Tablet		14522	active		ORTAB
+6	          ECTAB	Enteric Coated Tablet		14524	active		ORTAB
+7	            ERECTAB	Extended Release Enteric Coated Tablet		14525	active		ECTAB, ERTAB
+6	          ERTAB	Extended Release Tablet	A solid dosage form containing a drug which allows at least a reduction in dosing frequency as compared to that drug presented in conventional dosage form.	14526	active		ORTAB
+7	            ERTAB12	12 Hour Extended Release Tablet		14528	active		ERTAB
+7	            ERTAB24	24 Hour Extended Release Tablet		14527	active		ERTAB
+7	            ERECTAB	Extended Release Enteric Coated Tablet	
+6	          ORTROCHE	Lozenge/Oral Troche	A solid preparation containing one or more medicaments, usually in a flavored, sweetened base which is intended to dissolve or disintegrate slowly in the mouth.	14530	active		ORTAB
+6	          SLTAB	Sublingual Tablet		14531	active		ORTAB
+5	        VAGTAB	Vaginal Tablet		14532	active		TAB
+3	    POWD	Powder	An intimate mixture of dry, finely divided drugs and/or chemicals that may be intended for internal or external use.	14534	active		_SolidDrugForm
+4	      TOPPWD	Topical Powder		14535	active		POWD
+5	        RECPWD	Rectal Powder		14536	active		TOPPWD
+5	        VAGPWD	Vaginal Powder		14537	active		TOPPWD
+3	    SUPP	Suppository	A solid body of various weights and shapes, adapted for introduction into the rectal, vaginal, or urethral orifice of the human body; they usually melt, soften, or dissolve at body temperature.	14538	active		_SolidDrugForm
+4	      RECSUPP	Rectal Suppository		14539	active		SUPP
+4	      URETHSUPP	Urethral suppository		14541	active		SUPP
+4	      VAGSUPP	Vaginal Suppository		14540	active		SUPP
+3	    SWAB	Swab	A wad of absorbent material usually wound around one end of a small stick and used for applying medication or for removing material from an area.	14542	active		_SolidDrugForm
+4	      MEDSWAB	Medicated swab		14543	active		SWAB
+3	    WAFER	Wafer	A thin slice of material containing a medicinal agent.	14544	active		_SolidDrugForm
