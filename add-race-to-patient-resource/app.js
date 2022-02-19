@@ -68,6 +68,9 @@ this.FHIR.oauth2
         document.getElementById("ascvdRisk").onsubmit = function () {
           setAscvdRisk(event, pt, smart);
         };
+        document.getElementById("medicationRequest").onsubmit = function () {
+          addMedicationRequest(event, pt, smart);
+        };
         document.getElementById("submitRace").disabled = false;
         document.getElementById("removeRace").disabled = false;
       },
@@ -515,7 +518,7 @@ function setAscvdRisk(e, pt, smart) {
       system: "http://unitsofmeasure.org",
       code: "%",
     },
-    effectiveDateTime: europeStyleDate(today) // e.g. "2021-04-05"
+    effectiveDateTime: europeStyleDate(today), // e.g. "2021-04-05"
   };
   console.log(ascvdRiskObs);
   smart
@@ -531,4 +534,57 @@ function setAscvdRisk(e, pt, smart) {
       alert("Patient update succeeded!");
       return bundle;
     });
+}
+// add a statin
+function addMedicationRequest(e, pt,smart ) {
+  e.preventDefault(); 
+  let medicationRequestTemplate = {
+    resourceType: "MedicationRequest",
+    status: "active",
+    intent: "order",
+    medicationCodeableConcept: {
+      coding: [
+        {
+          system: "http://www.nlm.nih.gov/research/umls/rxnorm",
+          code: "", // e.g. "859751"
+          display: "", // e.g. "rosuvastatin calcium 20 MG oral tablet",
+        },
+      ],
+      text: "", // e.g. "rosuvastatin calcium 20 MG oral tablet",
+    },
+    subject: {
+      reference: "Patient/" + pt.id, 
+    },
+    authoredOn: "", // e.g. "2012-01-01"
+    dosageInstruction: [
+      {
+        text: "1 qhs",
+        timing: {
+          repeat: {
+            boundsPeriod: {
+              start: "", // e.g. "2022-01-02"
+            },
+            frequency: 1,
+            period: 1,
+            periodUnit: "d",
+          },
+        },
+      },
+    ],
+    dispenseRequest: {
+      numberOfRepeatsAllowed: 3,
+      quantity: {
+        value: 90,
+        unit: "{tablet}",
+        system: "http://unitsofmeasure.org",
+        code: "{tablet}",
+      },
+      expectedSupplyDuration: {
+        value: 90,
+        unit: "days",
+        system: "http://unitsofmeasure.org",
+        code: "d",
+      },
+    },
+  };
 }

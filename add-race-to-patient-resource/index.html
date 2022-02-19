@@ -9,7 +9,7 @@
     <style>
       html,
       body {
-        width: 600px;
+        width: 700px;
       }
     .hide {
       display: none;
@@ -128,6 +128,23 @@
         <legend>Blood Pressure</legend>
         <label for="ascvdRiskPercent">ASCVD 10-Year Risk (%): </label><input type="text" id="ascvdRiskPercent" name="ascvdRiskPercent">
         <!-- label for="ascvdRiskPercentDate" --><!--Date:--> <!--/label--><!--input type="text" id="ascvdRiskPercentDate" name="ascvdRiskPercentDate"--><br><br>
+        <input type="submit" value="Submit">
+      </fieldset>
+    </form>
+    <form action="" class="medicationRequest" id="medicationRequest">
+      <fieldset>
+        <legend>Medication Request</legend>
+        <label for="medicationName">Medication Name: </label><input type="text" id="medicationName" name="medicationName">
+        <label for="rxNormId">Rx Norm ID: </label><input type="text" id="rxNormId" name="rxNormId"><br><br>
+        <label for="dateAuthored">Date Authored: </label><input type="text" id="dateAuthored" name="dateAuthored" ><br><br>
+        <label for="dosageInstructions">Dosage Instructions: </label><input type="text" id="dosageInstructions" name="dosageInstructions" ><br><br>
+        <label for="dosageFrequency">Dosage Frequency: </label><input type="text" id="dosageFrequency" name="dosageFrequency" >
+        <label for="dosagePeriod">Period: </label><input type="text" id="dosagePeriod" name="dosagePeriod" >
+        <label for="dosagePeriodUnit">Unit: </label><input type="text" id="dosagePeriodUnit" name="dosagePeriodUnit" ><br><br>
+        <label for="quantity">Quantity: </label><input type="text" id="quantity" name="quantity" >
+        <label for="quantityUnit">Unit: </label><input type="text" id="quantityUnit" name="quantityUnit" ><br><br>
+        <label for="expectedDuration">Expected Duration: </label><input type="text" id="expectedDuration" name="expectedDuration" >
+        <label for="expectedDurationUnit">Unit:  </label><input type="text" id="expectedDurationUnit" name="expectedDurationUnit" ><br><br>
         <input type="submit" value="Submit">
       </fieldset>
     </form>
