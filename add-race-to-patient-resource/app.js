@@ -547,25 +547,28 @@ function addMedicationRequest(e, pt) {
   );
   let dosagePeriod = Number(document.getElementById("dosagePeriod").value);
 
+  // let dosagePeriodUnitElement = document.getElementById("dosagePeriodUnit");
+  // dosagePeriodUnitElement.addEventListener("change", setDosagePeriodUnit());
+  // let dosagePeriodUnit = dosagePeriodUnitElement.value;
   let dosagePeriodUnitElement = document.getElementById("dosagePeriodUnit");
-  dosagePeriodUnitElement.addEventListener("change", setDosagePeriodUnit());
-  let dosagePeriodUnit = dosagePeriodUnitElement.value;
 
   let dispenseRequestQuantity = Number(
     document.getElementById("dispenseRequestQuantity").value
   );
 
+  // let dispenseRequestQuantityUnitElement = document.getElementById("dispenseRequestQuantityUnit");
+  // dispenseRequestQuantityUnitElement.addEventListener("change", setDispenseRequestQuantityUnit());
+  // let dispenseRequestQuantityUnit = dispenseRequestQuantityUnitElement.value;
   let dispenseRequestQuantityUnitElement = document.getElementById("dispenseRequestQuantityUnit");
-  dispenseRequestQuantityUnitElement.addEventListener("change", setDispenseRequestQuantityUnit());
-  let dispenseRequestQuantityUnit = dispenseRequestQuantityUnitElement.value;
 
   let expectedDuration = Number(
     document.getElementById("expectedDuration").value
   );
 
+  // let expectedDurationUnitElement = document.getElementById("expectedDurationUnit");
+  // expectedDurationUnitElement.addEventListener("change", setExpectedDurationUnit());
+  // let expectedDurationUnit = expectedDurationUnitElement.value;
   let expectedDurationUnitElement = document.getElementById("expectedDurationUnit");
-  expectedDurationUnitElement.addEventListener("change", setExpectedDurationUnit());
-  let expectedDurationUnit = expectedDurationUnitElement.value;
 
   let numberOfRepeatsAllowed = Number(
     document.getElementById("numberOfRepeatsAllowed").value
@@ -578,11 +581,11 @@ function addMedicationRequest(e, pt) {
     dosageInstructions,
     dosageFrequency,
     dosagePeriod,
-    dosagePeriodUnit,
+    // dosagePeriodUnit,
     dispenseRequestQuantity,
-    dispenseRequestQuantityUnit,
+    // dispenseRequestQuantityUnit,
     expectedDuration,
-    expectedDurationUnit,
+    // expectedDurationUnit,
     numberOfRepeatsAllowed
   );
   let medicationRequestTemplate = {
@@ -602,7 +605,7 @@ function addMedicationRequest(e, pt) {
     subject: {
       reference: "Patient/" + pt.id,
     },
-    authoredOn: dateAuthored, // e.g. "2012-01-01"
+    authoredOn: dateAuthored, // e.g. "2022-02-01"
     dosageInstruction: [
       {
         text: dosageInstructions, // e.g. "1 qhs"
@@ -613,7 +616,7 @@ function addMedicationRequest(e, pt) {
             },
             frequency: dosageFrequency, // e.g. 1
             period: dosagePeriod, // e.g. 1
-            periodUnit: dosagePeriodUnit.value, // e.g. "d"
+            periodUnit: dosagePeriodUnitElement.value.split("|")[0], // e.g. "d"
           },
         },
       },
@@ -622,26 +625,26 @@ function addMedicationRequest(e, pt) {
       numberOfRepeatsAllowed: numberOfRepeatsAllowed, // e.g. 3
       quantity: {
         value: dispenseRequestQuantity, // e.g. 90
-        unit: dispenseRequestQuantityUnit.text, // e.g. "tablet"
-        system: "http://unitsofmeasure.org", // DH change this
-        code: dispenseRequestQuantityUnit.value // e.g. "TAB"
+        unit: dispenseRequestQuantityUnitElement.value.split("|")[1], // e.g. "tablet"
+        system: "http://terminology.hl7.org/ValueSet/v3-orderableDrugForm", 
+        code: dispenseRequestQuantityUnitElement.value.split("|")[0] // e.g. "TAB"
       },
       expectedSupplyDuration: {
         value: expectedDuration, // e.g.  90
-        unit: expectedDurationUnit.text, // e.g. "days"
+        unit: expectedDurationUnitElement.value.split("|")[1], // e.g. "days"
         system: "http://unitsofmeasure.org",
-        code: expectedDurationUnit.value, // e.g. "d"
+        code: expectedDurationUnitElement.value.split("|")[0], // e.g. "d"
       },
     },
   };
   console.log(medicationRequestTemplate);
 }
-function setDosagePeriodUnit() {
-  let dosagePeriodUnitList = document.getElementById("dosagePeriodUnit");
-  let dosagePeriodUnit =
-    dosagePeriodUnitList.options[dosagePeriodUnitList.selectedIndex];
-  // console.log(dosagePeriodUnit);
-}
+// function setDosagePeriodUnit() {
+//   let dosagePeriodUnitList = document.getElementById("dosagePeriodUnit");
+//   let dosagePeriodUnit =
+//     dosagePeriodUnitList.options[dosagePeriodUnitList.selectedIndex];
+//   // console.log(dosagePeriodUnit);
+// }
 function setDispenseRequestQuantityUnit() {
   let dispenseRequestQuantityUnitList = document.getElementById(
     "dispenseRequestQuantityUnit"
