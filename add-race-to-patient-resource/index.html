@@ -141,32 +141,32 @@
         <label for="dosageFrequency">Dosage Frequency: </label><input type="text" id="dosageFrequency" name="dosageFrequency" >
         <label for="dosagePeriod">Period: </label><input type="text" id="dosagePeriod" name="dosagePeriod" >
         <label for="dosagePeriodUnit">Unit: </label>
-        <select id = "dosagePeriodUnit" onchange = "setDosagePeriodUnit()" >  
+        <select id = "dosagePeriodUnit" >  
           <option> ---Unit--- </option>  
-          <option id="s"> second </option>  
-          <option id="m"> minute </option>  
-          <option id="h"> hour </option>  
-          <option id="d"> day </option>  
-          <option id="w"> week </option>  
-          <option id="m"> month </option>  
-          <option id="a"> year </option>  
+          <option value="s"> second </option>  
+          <option value="m"> minute </option>  
+          <option value="h"> hour </option>  
+          <option value="d"> day </option>  
+          <option value="w"> week </option>  
+          <option value="m"> month </option>  
+          <option value="a"> year </option>  
         </select><br><br>
         <label for="dispenseRequestQuantity">Dispense  Quantity: </label><input type="text" id="dispenseRequestQuantity" name="dispenseRequestQuantity" >
-        <select id = "dispenseRequestQuantityUnit" onchange = "setDispenseRequestQuantityUnit()" >  
+        <select id = "dispenseRequestQuantityUnit" >  
           <option> ---Unit--- </option>  
-          <option id="TAB"> tablet </option>  
-          <option id="CAP"> capsule </option>  
+          <option value="TAB"> tablet </option>  
+          <option value="CAP"> capsule </option>  
         </select><br><br>
         <label for="expectedDuration">Expected Duration: </label><input type="text" id="expectedDuration" name="expectedDuration" >
-        <select id = "expectedDurationUnit" onchange = "setExpectedDurationUnit()" >  
+        <select id = "expectedDurationUnit">  
           <option> ---Unit--- </option>  
-          <option id="s"> second </option>  
-          <option id="m"> minute </option>  
-          <option id="h"> hour </option>  
-          <option id="d"> day </option>  
-          <option id="w"> week </option>  
-          <option id="m"> month </option>  
-          <option id="a"> year </option>  
+          <option value="s"> second </option>  
+          <option value="m"> minute </option>  
+          <option value="h"> hour </option>  
+          <option value="d"> day </option>  
+          <option value="w"> week </option>  
+          <option value="m"> month </option>  
+          <option value="a"> year </option>  
         </select><br><br>
         <label for="numberOfRepeatsAllowed">Refills: </label><input type="text" id="numberOfRepeatsAllowed" name="numberOfRepeatsAllowed" >
         <input type="submit" value="Submit">

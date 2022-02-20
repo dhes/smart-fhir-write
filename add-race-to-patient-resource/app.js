@@ -536,79 +536,41 @@ function setAscvdRisk(e, pt, smart) {
     });
 }
 // add a statin
-function addMedicationRequest(e, pt, smart) {
+function addMedicationRequest(e, pt) {
   e.preventDefault();
-  let medicationRequestTemplate = {
-    resourceType: "MedicationRequest",
-    status: "active",
-    intent: "order",
-    medicationCodeableConcept: {
-      coding: [
-        {
-          system: "http://www.nlm.nih.gov/research/umls/rxnorm",
-          code: "", // e.g. "859751"
-          display: "", // e.g. "rosuvastatin calcium 20 MG oral tablet",
-        },
-      ],
-      text: "", // e.g. "rosuvastatin calcium 20 MG oral tablet",
-    },
-    subject: {
-      reference: "Patient/" + pt.id,
-    },
-    authoredOn: "", // e.g. "2012-01-01"
-    dosageInstruction: [
-      {
-        text: "1 qhs",
-        timing: {
-          repeat: {
-            boundsPeriod: {
-              start: "", // e.g. "2022-01-02"
-            },
-            frequency: 1,
-            period: 1,
-            periodUnit: "d",
-          },
-        },
-      },
-    ],
-    dispenseRequest: {
-      numberOfRepeatsAllowed: 3,
-      quantity: {
-        value: 90,
-        unit: "{tablet}",
-        system: "http://unitsofmeasure.org",
-        code: "{tablet}",
-      },
-      expectedSupplyDuration: {
-        value: 90,
-        unit: "days",
-        system: "http://unitsofmeasure.org",
-        code: "d",
-      },
-    },
-  };
   let medicationName = document.getElementById("medicationName").value;
   let rxNormId = document.getElementById("rxNormId").value;
   let dateAuthored = document.getElementById("dateAuthored").value;
   let dosageInstructions = document.getElementById("dosageInstructions").value;
   let dosageFrequency = Number(
-    document.getElementById("dosageFrequency")
-  .value);
+    document.getElementById("dosageFrequency").value
+  );
   let dosagePeriod = Number(document.getElementById("dosagePeriod").value);
-  let dosagePeriodUnit = document.getElementById("dosagePeriodUnit").value;
+
+  let dosagePeriodUnitElement = document.getElementById("dosagePeriodUnit");
+  dosagePeriodUnitElement.addEventListener("change", setDosagePeriodUnit());
+  let dosagePeriodUnit = dosagePeriodUnitElement.value;
+
   let dispenseRequestQuantity = Number(
-    document.getElementById("dispenseRequestQuantity")
-  .value);
-  let dispenseRequestQuantityUnit = document.getElementById(
-    "dispenseRequestQuantityUnit"
-  ).value;
+    document.getElementById("dispenseRequestQuantity").value
+  );
+
+  let dispenseRequestQuantityUnitElement = document.getElementById("dispenseRequestQuantityUnit");
+  dispenseRequestQuantityUnitElement.addEventListener("change", setDispenseRequestQuantityUnit());
+  let dispenseRequestQuantityUnit = dispenseRequestQuantityUnitElement.value;
+
   let expectedDuration = Number(
-    document.getElementById("expectedDuration")
-  .value);
-  let expectedDurationUnit = document.getElementById("expectedDurationUnit").value;
+    document.getElementById("expectedDuration").value
+  );
+
+  let expectedDurationUnitElement = document.getElementById("expectedDurationUnit");
+  expectedDurationUnitElement.addEventListener("change", setExpectedDurationUnit());
+  let expectedDurationUnit = expectedDurationUnitElement.value;
+
   let numberOfRepeatsAllowed = Number(
-    document.getElementById("numberOfRepeatsAllowed")
-  .value);
+    document.getElementById("numberOfRepeatsAllowed").value
+  );
+
   console.log(
     medicationName,
     rxNormId,
@@ -623,22 +585,78 @@ function addMedicationRequest(e, pt, smart) {
     expectedDurationUnit,
     numberOfRepeatsAllowed
   );
+  let medicationRequestTemplate = {
+    resourceType: "MedicationRequest",
+    status: "active",
+    intent: "order",
+    medicationCodeableConcept: {
+      coding: [
+        {
+          system: "http://www.nlm.nih.gov/research/umls/rxnorm",
+          code: rxNormId, // e.g. "859751"
+          display: medicationName, // e.g. "rosuvastatin calcium 20 MG oral tablet",
+        },
+      ],
+      text: medicationName, // e.g. "rosuvastatin calcium 20 MG oral tablet",
+    },
+    subject: {
+      reference: "Patient/" + pt.id,
+    },
+    authoredOn: dateAuthored, // e.g. "2012-01-01"
+    dosageInstruction: [
+      {
+        text: dosageInstructions, // e.g. "1 qhs"
+        timing: {
+          repeat: {
+            boundsPeriod: {
+              start: dateAuthored, // e.g. "2022-01-02"
+            },
+            frequency: dosageFrequency, // e.g. 1
+            period: dosagePeriod, // e.g. 1
+            periodUnit: dosagePeriodUnit.value, // e.g. "d"
+          },
+        },
+      },
+    ],
+    dispenseRequest: {
+      numberOfRepeatsAllowed: numberOfRepeatsAllowed, // e.g. 3
+      quantity: {
+        value: dispenseRequestQuantity, // e.g. 90
+        unit: dispenseRequestQuantityUnit.text, // e.g. "tablet"
+        system: "http://unitsofmeasure.org", // DH change this
+        code: dispenseRequestQuantityUnit.value // e.g. "TAB"
+      },
+      expectedSupplyDuration: {
+        value: expectedDuration, // e.g.  90
+        unit: expectedDurationUnit.text, // e.g. "days"
+        system: "http://unitsofmeasure.org",
+        code: expectedDurationUnit.value, // e.g. "d"
+      },
+    },
+  };
+  console.log(medicationRequestTemplate);
 }
 function setDosagePeriodUnit() {
   let dosagePeriodUnitList = document.getElementById("dosagePeriodUnit");
   let dosagePeriodUnit =
-    dosagePeriodUnitList.options[dosagePeriodUnitList.selectedIndex].text;
-    console.log(dosagePeriodUnit);
+    dosagePeriodUnitList.options[dosagePeriodUnitList.selectedIndex];
+  // console.log(dosagePeriodUnit);
 }
 function setDispenseRequestQuantityUnit() {
-  let dispenseRequestQuantityUnitList = document.getElementById("dispenseRequestQuantityUnit");
+  let dispenseRequestQuantityUnitList = document.getElementById(
+    "dispenseRequestQuantityUnit"
+  );
   let dispenseRequestQuantityUnit =
-  dispenseRequestQuantityUnitList.options[dispenseRequestQuantityUnitList.selectedIndex].text;
-    console.log(dispenseRequestQuantityUnit);
+    dispenseRequestQuantityUnitList.options[
+      dispenseRequestQuantityUnitList.selectedIndex
+    ];
+  // console.log(dispenseRequestQuantityUnit);
 }
 function setExpectedDurationUnit() {
-  let expectedDurationUnitList = document.getElementById("expectedDurationUnit");
+  let expectedDurationUnitList = document.getElementById(
+    "expectedDurationUnit"
+  );
   let expectedDurationUnit =
-  expectedDurationUnitList.options[expectedDurationUnitList.selectedIndex].text;
-    console.log(expectedDurationUnit);
+    expectedDurationUnitList.options[expectedDurationUnitList.selectedIndex];
+  // console.log(expectedDurationUnit);
 }
