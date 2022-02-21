@@ -559,7 +559,9 @@ function addMedicationRequest(e, pt) {
   // let dispenseRequestQuantityUnitElement = document.getElementById("dispenseRequestQuantityUnit");
   // dispenseRequestQuantityUnitElement.addEventListener("change", setDispenseRequestQuantityUnit());
   // let dispenseRequestQuantityUnit = dispenseRequestQuantityUnitElement.value;
-  let dispenseRequestQuantityUnitElement = document.getElementById("dispenseRequestQuantityUnit");
+  let dispenseRequestQuantityUnitElement = document.getElementById(
+    "dispenseRequestQuantityUnit"
+  );
 
   let expectedDuration = Number(
     document.getElementById("expectedDuration").value
@@ -568,7 +570,9 @@ function addMedicationRequest(e, pt) {
   // let expectedDurationUnitElement = document.getElementById("expectedDurationUnit");
   // expectedDurationUnitElement.addEventListener("change", setExpectedDurationUnit());
   // let expectedDurationUnit = expectedDurationUnitElement.value;
-  let expectedDurationUnitElement = document.getElementById("expectedDurationUnit");
+  let expectedDurationUnitElement = document.getElementById(
+    "expectedDurationUnit"
+  );
 
   let numberOfRepeatsAllowed = Number(
     document.getElementById("numberOfRepeatsAllowed").value
@@ -626,8 +630,8 @@ function addMedicationRequest(e, pt) {
       quantity: {
         value: dispenseRequestQuantity, // e.g. 90
         unit: dispenseRequestQuantityUnitElement.value.split("|")[1], // e.g. "tablet"
-        system: "http://terminology.hl7.org/ValueSet/v3-orderableDrugForm", 
-        code: dispenseRequestQuantityUnitElement.value.split("|")[0] // e.g. "TAB"
+        system: "http://terminology.hl7.org/ValueSet/v3-orderableDrugForm",
+        code: dispenseRequestQuantityUnitElement.value.split("|")[0], // e.g. "TAB"
       },
       expectedSupplyDuration: {
         value: expectedDuration, // e.g.  90
@@ -636,6 +640,12 @@ function addMedicationRequest(e, pt) {
         code: expectedDurationUnitElement.value.split("|")[0], // e.g. "d"
       },
     },
+    requester: [
+      {
+        reference: "Practitioner/smart-Practitioner-71614502",
+        display: "Susan A. Clark"
+      },
+    ],
   };
   console.log(medicationRequestTemplate);
 }
