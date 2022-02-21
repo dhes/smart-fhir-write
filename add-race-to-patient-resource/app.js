@@ -623,6 +623,15 @@ function addMedicationRequest(e, pt) {
             periodUnit: dosagePeriodUnitElement.value.split("|")[0], // e.g. "d"
           },
         },
+        route: {
+          coding: [
+            {
+              system: "http://snomed.info/sct",
+              code: "26643006",
+              display: "Oral Route (qualifier value)",
+            },
+          ],
+        },
       },
     ],
     dispenseRequest: {
@@ -643,7 +652,7 @@ function addMedicationRequest(e, pt) {
     requester: [
       {
         reference: "Practitioner/smart-Practitioner-71614502",
-        display: "Susan A. Clark"
+        display: "Susan A. Clark",
       },
     ],
   };
