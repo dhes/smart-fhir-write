@@ -536,7 +536,7 @@ function setAscvdRisk(e, pt, smart) {
     });
 }
 // add a statin
-function addMedicationRequest(e, pt) {
+function addMedicationRequest(e, pt, smart) {
   e.preventDefault();
   let medicationName = document.getElementById("medicationName").value;
   let rxNormId = document.getElementById("rxNormId").value;
@@ -592,7 +592,7 @@ function addMedicationRequest(e, pt) {
     // expectedDurationUnit,
     numberOfRepeatsAllowed
   );
-  let medicationRequestTemplate = {
+  let medicationRequest = {
     resourceType: "MedicationRequest",
     status: "active",
     intent: "order",
@@ -610,6 +610,12 @@ function addMedicationRequest(e, pt) {
       reference: "Patient/" + pt.id,
     },
     authoredOn: dateAuthored, // e.g. "2022-02-01"
+    requester: [
+      {
+        reference: "Practitioner/smart-Practitioner-71614502",
+        display: "Susan A. Clark",
+      },
+    ],
     dosageInstruction: [
       {
         text: dosageInstructions, // e.g. "1 qhs"
@@ -649,14 +655,22 @@ function addMedicationRequest(e, pt) {
         code: expectedDurationUnitElement.value.split("|")[0], // e.g. "d"
       },
     },
-    requester: [
-      {
-        reference: "Practitioner/smart-Practitioner-71614502",
-        display: "Susan A. Clark",
-      },
-    ],
   };
-  console.log(medicationRequestTemplate);
+  console.log(medicationRequest);
+  smart
+  .create(medicationRequest)
+  // .then(function (error) {
+  //   document.getElementById("ptNameAndId").innerText = error.stack;
+  // });
+  .catch(function (e) {
+    alert("An error occured with the update");
+    throw e;
+  })
+  .then(function (bundle) {
+    alert("MedicationRequest create succeeded!");
+    return bundle;
+  });
+
 }
 // function setDosagePeriodUnit() {
 //   let dosagePeriodUnitList = document.getElementById("dosagePeriodUnit");
